@@ -40,6 +40,19 @@ public:
             delete count;
         }
     }
+    T operator*() {
+        if (!m) {
+            return -1;
+        }
+        return *m;
+    }
+    bool operator>(const Shared_ptr& other) const {
+        return m > other.m;
+    }
+
+    bool operator<(const Shared_ptr& other) const {
+        return m < other.m;
+    }
 };
 
 #endif // SHARED_H
