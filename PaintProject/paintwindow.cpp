@@ -15,6 +15,7 @@ PaintWindow::PaintWindow(QWidget *parent)
     ui->label->setPixmap(QPixmap::fromImage(*image_backrownd));
     pen.setColor(color=Qt::black);
     pen.setWidth(width=3);
+    originalStyle=pen.style();
     drawing = false;
     paintArea=new PaintArea();
     paintArea->setShape(None);
@@ -115,6 +116,8 @@ void PaintWindow::on_action3_triggered()
     pen.setWidth(3);
 }
 
+
+
 void PaintWindow::on_action_pen_triggered()
 {
     paintArea->setConnect(false);
@@ -126,19 +129,26 @@ void PaintWindow::on_action_pen_triggered()
 
 void PaintWindow::on_action_triggered()
 {
+    originalStyle=pen.style();
     paintArea->setShape(Triangle);
-    disconnectPenCon();
+    pen.setStyle(Qt::NoPen);
+    paintArea->setConnect(false);
 }
 
 
 void PaintWindow::on_action_ellipse_triggered()
 {
+    originalStyle=pen.style();
     paintArea->setShape(Ellipse);
-    disconnectPenCon();
+    pen.setStyle(Qt::NoPen);
+    paintArea->setConnect(false);
 }
 void PaintWindow::on_action_rectangle_triggered(){
+    originalStyle=pen.style();
     paintArea->setShape(Rectangle);
-    disconnectPenCon();
+
+    pen.setStyle(Qt::NoPen);
+    paintArea->setConnect(false);
 }
 
 
@@ -181,8 +191,4 @@ void PaintWindow::on_action_bound_triggered()
     pen.setStyle(Qt::NoPen);
     paintArea->setConnect(true);
 }
-void PaintWindow::disconnectPenCon(){
-    originalStyle=pen.style();
-    pen.setStyle(Qt::NoPen);
-    paintArea->setConnect(false);
-}
+

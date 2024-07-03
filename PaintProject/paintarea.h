@@ -43,9 +43,9 @@ private:
     bool connectionMode;
     QPoint firstConnectionPoint;
     bool isFirstPointSelected;
-    QList<QPair<Shape, QPair<QPoint, QPoint>>> shapes;
+    QList<QPair<QPolygon, QPair<QPoint, QPoint>>> shapes;
 
-    void drawShape(Shape shape, const QPoint &start, const QPoint &end);
+    QPolygon drawShape(Shape shape, const QPoint &start, const QPoint &end);
     QPoint getShapeCenter(const QPair<QPoint, QPoint> &shape);
 
     QPolygon getShapeTriangle(const QPoint &start, const QPoint &end);

@@ -67,6 +67,5 @@ private:
     QImage* image_backrownd;
     PaintArea *paintArea;
     void combineImages();
-    void disconnectPenCon();
 };
 #endif // PAINTWINDOW_H

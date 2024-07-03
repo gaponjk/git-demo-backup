@@ -25,17 +25,10 @@ void PaintArea::mousePressEvent(QMouseEvent *event) {
         bool clickedOnShape = false;
         for (const auto &shape : shapes) {
             QPoint center = getShapeCenter(shape.second);
-            QPolygon hitbox;
-            if(shape.first==Rectangle)
-                hitbox=QPolygon(QRect(shape.second.first, shape.second.second));
-            else if(shape.first==Triangle)
-                hitbox=getShapeTriangle(shape.second.first,shape.second.second);
-            else if(shape.first==Ellipse)
-                hitbox=getShapeEllipse(shape.second.first,shape.second.second);
-            else
-                qDebug()<<"somethings wrong with mousePressEvent";
-            if (hitbox.containsPoint(event->pos(), Qt::OddEvenFill)) {
+            if (shape.first.containsPoint(event->pos()-QPoint(0,20), Qt::OddEvenFill)&&event->button() == Qt::LeftButton) {
                 clickedOnShape = true;
+                if(firstConnectionPoint==center)
+                    break;
                 if (!isFirstPointSelected) {
                     firstConnectionPoint = center;
                     isFirstPointSelected = true;
@@ -50,8 +43,8 @@ void PaintArea::mousePressEvent(QMouseEvent *event) {
         }
         if (!clickedOnShape)
             isFirstPointSelected = false;
-
-    }
+    }else
+        isFirstPointSelected = false;
     if (event->button() == Qt::RightButton)
     isFirstPointSelected = false;
 }
@@ -59,7 +52,7 @@ void PaintArea::mousePressEvent(QMouseEvent *event) {
 void PaintArea::mouseMoveEvent(QMouseEvent *event) {
     if (drawing) {
         currentPoint = event->pos();
-        currentPoint-= +QPoint(0,20);
+        currentPoint-= QPoint(0,20);
         update();
     }
 }
@@ -69,8 +62,7 @@ void PaintArea::mouseReleaseEvent(QMouseEvent *event) {
         return;
     if (event->button() == Qt::LeftButton && drawing ) {
         drawing = false;
-        shapes.append(qMakePair(currentShape, qMakePair(startPoint, currentPoint)));
-        drawShape(currentShape, startPoint, currentPoint);
+        shapes.append(qMakePair( drawShape(currentShape, startPoint, currentPoint), qMakePair(startPoint, currentPoint)));
         update();
     } else if (event->button() == Qt::RightButton) {
         drawing = false;
@@ -86,25 +78,27 @@ void PaintArea::keyReleaseEvent(QKeyEvent *event) {
     }
 }
 
-void PaintArea::drawShape( Shape shape, const QPoint &start, const QPoint &end) {
+QPolygon PaintArea::drawShape(Shape shape, const QPoint &start, const QPoint &end) {
 
     painter.setPen(pen);
+    QPolygon temp;
 
     switch (shape) {
     case Rectangle:
-        painter.drawRect(QRect(start, end));
+        temp=QPolygon(QRect(start, end));
         break;
     case Triangle: {
-        painter.drawPolygon(getShapeTriangle(start,end));
+        temp=getShapeTriangle(start,end);
         break;
     }
     case Ellipse:
-        painter.drawPolygon(getShapeEllipse(start,end));
+        temp=getShapeEllipse(start,end);
         break;
     default:
         break;
     }
-
+    painter.drawPolygon(temp);
+    return temp;
 }
 
 QPolygon PaintArea::getShapeTriangle(const QPoint &start, const QPoint &end){
