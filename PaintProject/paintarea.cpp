@@ -8,9 +8,11 @@ PaintArea::PaintArea(QWidget *parent)
     isFirstPointSelected = false;
     moveable=false;
     moving=false;
+    painter.setPen(pen);
 }
 PaintArea::~PaintArea(){
     delete image;
+    delete movingShape;
     painter.end();
 }
 
@@ -41,11 +43,14 @@ void PaintArea::mousePressEvent(QMouseEvent *event) {
                     if (shapes[i].first.containsPoint(connections[j].first, Qt::OddEvenFill) ||
                         shapes[i].first.containsPoint(connections[j].second, Qt::OddEvenFill)) {
                         connections.removeAt(j);
+                        connectPens.removeAt(j);
                     } else {
                         ++j;
                     }
                 }
                 shapes.removeAt(i);
+                models.removeAt(i);
+                shapePens.removeAt(i);
                 --i;
             }
         }
@@ -66,6 +71,7 @@ void PaintArea::mousePressEvent(QMouseEvent *event) {
                     painter.setPen(pen);
                     painter.drawLine(firstConnectionPoint, center);
                     connections.append(qMakePair(firstConnectionPoint, center));
+                    connectPens.append(pen);
                     isFirstPointSelected = false;
                     update();
                 }
@@ -119,6 +125,8 @@ void PaintArea::mouseReleaseEvent(QMouseEvent *event) {
     if (event->button() == Qt::LeftButton && drawing ) {
         drawing = false;
         shapes.append(qMakePair( drawShape(currentShape, startPoint, currentPoint), qMakePair(startPoint, currentPoint)));
+        models.append(currentShape);
+        shapePens.append(pen);
         update();
     } else if (event->button() == Qt::LeftButton && moveable) {
         updateConnections();
@@ -214,24 +222,26 @@ void PaintArea::updateConnections() {
     painter.begin(image);
     painter.setPen(pen);
 
-    for (const auto &shape : shapes) {
-        painter.drawPolygon(shape.first);
+    for (int i = 0; i < shapes.size(); ++i) {
+        painter.setPen(shapePens[i]);
+        painter.drawPolygon(shapes[i].first);
     }
 
-    for (const auto &connection : connections) {
+    for (int i = 0; i < connections.size(); ++i)  {
+        painter.setPen(connectPens.at(i));
         bool isLeft = false, isRight = false;
         for (const auto &shape : shapes) {
-            if (shape.first.containsPoint(connection.first, Qt::OddEvenFill))
+            if (shape.first.containsPoint(connections[i].first, Qt::OddEvenFill))
                 isLeft = true;
-            if (shape.first.containsPoint(connection.second, Qt::OddEvenFill))
+            if (shape.first.containsPoint(connections[i].second, Qt::OddEvenFill))
                 isRight = true;
         }
         if (isLeft && isRight)
-            painter.drawLine(connection.first, connection.second);
+            painter.drawLine(connections[i].first, connections[i].second);
          else if (isLeft)
-            painter.drawLine(connection.first, getShapeCenter(movingShape->second));
+            painter.drawLine(connections[i].first, getShapeCenter(movingShape->second));
          else if (isRight)
-            painter.drawLine(getShapeCenter(movingShape->second), connection.second);
+            painter.drawLine(getShapeCenter(movingShape->second), connections[i].second);
     }
     update();
 }
@@ -239,13 +249,85 @@ void PaintArea::updateRemovels(){
     image->fill(Qt::transparent);
     painter.end();
     painter.begin(image);
-    painter.setPen(pen);
-
-    for (const auto &shape : shapes) {
-        painter.drawPolygon(shape.first);
+    for (int i = 0; i < shapes.size(); ++i) {
+        painter.setPen(shapePens[i]);
+        painter.drawPolygon(shapes[i].first);
     }
-    for (const auto &connection : connections) {
-        painter.drawLine(connection.first, connection.second);
+    for (int i = 0; i < connections.size(); ++i) {
+        painter.setPen(connectPens.at(i));
+        painter.drawLine(connections[i].first, connections[i].second);
     }
     update();
+}
+bool PaintArea::saveFile(const QString &fileName) {
+    QFile file(fileName);
+    if (!file.open(QIODevice::WriteOnly)) {
+        qDebug() << "Не получается открыть файл для записи";
+        return false;
+    }
+
+    QDataStream out(&file);
+    out.setVersion(QDataStream::Qt_5_15);
+
+    out << int(shapes.size());
+    for (int i = 0; i < shapes.size(); ++i) {
+        out<<shapePens.at(i) << models.at(i);
+        out << shapes[i].second.first << shapes[i].second.second;
+    }
+
+    out << int(connections.size());
+    for (int i = 0; i < connections.size(); ++i) {
+        out<<connectPens.at(i);
+        out << connections[i].first << connections[i].second;
+    }
+
+    file.close();
+    return true;
+}
+
+bool PaintArea::loadFile(const QString &fileName){
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        qDebug() << "Не получается открыть файл для чтения";
+        return false;
+    }
+
+    QDataStream in(&file);
+    in.setVersion(QDataStream::Qt_5_15);
+
+    shapes.clear();
+    connections.clear();
+    shapePens.clear();
+    int shapesSize;
+    in >> shapesSize;
+    for (int i = 0; i < shapesSize; ++i) {
+        Shape model;
+        QPen pen;
+        QPoint point1, point2;
+        in >>pen>> model;
+        in >> point1 >> point2;
+        shapePens.append(pen);
+        this->pen=pen;
+        painter.setPen(pen);
+        shapes.append(qMakePair(drawShape(model, point1, point2), qMakePair(point1, point2)));
+        models.append(model);
+    }
+
+    int connectionsSize;
+    in >> connectionsSize;
+    for (int i = 0; i < connectionsSize; ++i) {
+        QPen pen;
+        QPoint point1, point2;
+        in>>pen >> point1 >> point2;
+        connectPens.append(pen);
+        painter.setPen(pen);
+        connections.append(qMakePair(point1, point2));
+        painter.drawLine(point1, point2);
+
+    }
+
+    file.close();
+    update();
+    return true;
 }

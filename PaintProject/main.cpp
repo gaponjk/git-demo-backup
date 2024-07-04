@@ -2,7 +2,7 @@
 #include "paintwindow.h"
 
 #include <QApplication>
-
+//Гапоненко Ярослав Александрович 5 группа
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
@@ -10,4 +10,3 @@ int main(int argc, char *argv[])
     w.show();
     return a.exec();
 }
-//Переделать сохранение файла, метаданные

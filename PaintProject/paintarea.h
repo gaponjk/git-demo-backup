@@ -4,6 +4,8 @@
 #include <QWidget>
 #include <QMouseEvent>
 #include <QPainter>
+#include <QFile>
+#include<QMessageBox>
 enum Shape { None, Rectangle, Triangle, Ellipse };
 class PaintArea : public QWidget {
     Q_OBJECT
@@ -17,6 +19,8 @@ public:
     void setConnect(bool connect);
     void setMoveable(bool moveable);
     void setRemove(bool remove);
+    bool saveFile(const QString &fileName);
+    bool loadFile(const QString &fileName);
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -49,6 +53,8 @@ private:
     QPoint firstConnectionPoint;
     bool isFirstPointSelected;
     QVector<QPair<QPolygon, QPair<QPoint, QPoint>>> shapes;
+    QVector <Shape> models;
+    QVector <QPen> shapePens,connectPens;
     bool moving;
     QPair<QPolygon, QPair<QPoint, QPoint>> *movingShape;
     QVector<QPair<QPoint, QPoint>> connections;

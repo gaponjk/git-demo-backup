@@ -82,33 +82,62 @@ void PaintWindow::keyReleaseEvent(QKeyEvent *event){
 
 
 
-void PaintWindow::on_action_save_triggered()
-{
+void PaintWindow::on_action_save_triggered() {
+    QMessageBox::warning(this,"Сохранение файла","При сохранении Ваша работа будет сохранена в два файла:"
+                                                   "\n-Бинарный файл с фигурами и их связими\n-JPG Файл с фоном и тем, что вы писали карандашом.\n");
+    paintArea->setRemove(false);
+    paintArea->setMoveable(false);
+    paintArea->setConnect(false);
+    paintArea->setShape(None);
+    setCursor(Qt::ArrowCursor);
+    settingPen();
+    QPainter painter(image_backrownd);
+    painter.drawImage(0, 0, *image);
+
     if (!image->isNull()) {
-        QString fileName = QFileDialog::getSaveFileName(this, tr("Сохранить изображение"), "", tr("(*.png);;(*.jpg)"));
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Сохранить изображение"), "", tr("Binary Files (*.bin)"));
+
         if (!fileName.isEmpty()) {
-            if (image->save(fileName)) {
-                ui->statusbar->showMessage("Изобржаение сохранено успешно");
+            bool binSaved = paintArea->saveFile(fileName);
+
+            QString jpegFileName = fileName;
+            jpegFileName.replace(jpegFileName.length() - 4, 4, ".jpg");
+            bool jpgSaved = image_backrownd->save(jpegFileName);
+
+            if (binSaved && jpgSaved) {
+                ui->statusbar->showMessage("Изображение сохранено успешно");
             } else {
                 ui->statusbar->showMessage("Не удалось сохранить изображение");
             }
         }
     } else {
-        ui->statusbar->showMessage("Нет изобржения для сохранения");
+        ui->statusbar->showMessage("Нет изображения для сохранения");
     }
 }
 
-
-void PaintWindow::on_action_jpg_triggered()
-{
-   QString fileName = QFileDialog::getOpenFileName(this, tr("Открыть изображение"), "", tr("(*.png);;(*.jpg)"));
+void PaintWindow::on_action_jpg_triggered() {
+    QString fileName = QFileDialog::getOpenFileName(this, tr("Открыть изображение"), "", tr("Binary Files (*.bin)"));
+    paintArea->setRemove(false);
+    paintArea->setMoveable(false);
+    paintArea->setConnect(false);
+    paintArea->setShape(None);
+    setCursor(Qt::ArrowCursor);
+    settingPen();
     if (!fileName.isEmpty()) {
-       if (image->load(fileName)) {
-            ui->label2->setPixmap(QPixmap::fromImage(*image));
-            ui->label2->adjustSize();
-            ui->statusbar->showMessage("Изобржаение открыто успешно");
+        if (paintArea->loadFile(fileName)) {
+            QString jpegFileName = fileName;
+            jpegFileName.replace(jpegFileName.length() - 4, 4, ".jpg");
+
+            if (image_backrownd->load(jpegFileName)) {
+                combineImages();
+                ui->label->setPixmap(QPixmap::fromImage(*image_backrownd));
+                ui->statusbar->showMessage("Изображение открыто успешно");
+            } else {
+                QMessageBox::warning(this,"Причина возможной ошибки","Вы могли удалить или переименовать JPG файл");
+                ui->statusbar->showMessage("Не удалось открыть изображение в формате JPG");
+            }
         } else {
-           ui->statusbar->showMessage("Не удалось открыть изображение");
+            ui->statusbar->showMessage("Не удалось открыть изображение в формате BIN");
         }
     }
 }
