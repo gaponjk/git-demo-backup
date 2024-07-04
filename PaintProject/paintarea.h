@@ -48,10 +48,10 @@ private:
     bool connectionMode;
     QPoint firstConnectionPoint;
     bool isFirstPointSelected;
-    QList<QPair<QPolygon, QPair<QPoint, QPoint>>> shapes;
+    QVector<QPair<QPolygon, QPair<QPoint, QPoint>>> shapes;
     bool moving;
     QPair<QPolygon, QPair<QPoint, QPoint>> *movingShape;
-    QList<QPair<QPoint, QPoint>> connections;
+    QVector<QPair<QPoint, QPoint>> connections;
     QPoint offset;
     bool moveable;
     bool remove;

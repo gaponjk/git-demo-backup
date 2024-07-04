@@ -72,5 +72,6 @@ private:
     PaintArea *paintArea;
     void combineImages();
     void settingPen();
+
 };
 #endif // PAINTWINDOW_H

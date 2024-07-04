@@ -33,7 +33,7 @@ void PaintArea::mousePressEvent(QMouseEvent *event) {
             }
         }
     }
-    if (remove) {//хоть я тут использовал лист, что некоректно для скорости работы программы, т к лист не предназанчен для поиска по индексу, однако в остальных случая стабильность работы программы под воросом
+    if (remove) {//самый стабильный варинат работы
         for (int i = 0; i < shapes.size(); ++i) {
             if (shapes[i].first.containsPoint(event->pos() - QPoint(0, 20), Qt::OddEvenFill) && event->button() == Qt::LeftButton) {
 

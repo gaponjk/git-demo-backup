@@ -36,7 +36,13 @@ void PaintWindow::mousePressEvent(QMouseEvent *event) {
         lastPoint = event->pos();
         lastPoint -= QPoint(0,20);
     }
+    if(paintArea->getMoveable())
+        setCursor(Qt::ClosedHandCursor);
     paintArea->mousePressEvent(event);
+
+
+
+
     combineImages();
 }
 
@@ -63,6 +69,8 @@ void PaintWindow::mouseReleaseEvent(QMouseEvent *event) {
         paintArea->mouseReleaseEvent(event);
         combineImages();
     }
+    if(paintArea->getMoveable())
+       setCursor(Qt::OpenHandCursor);
 }
 void PaintWindow::combineImages(){
     ui->label3->setPixmap(QPixmap::fromImage(paintArea->getImage()));
@@ -152,6 +160,7 @@ void PaintWindow::on_action_pen_triggered()
     paintArea->setMoveable(false);
     paintArea->setConnect(false);
     paintArea->setShape(None);
+    setCursor(Qt::ArrowCursor);
     settingPen();
 }
 
@@ -161,6 +170,7 @@ void PaintWindow::on_action_triggered()
     originalStyle=pen.style();
     paintArea->setShape(Triangle);
     pen.setStyle(Qt::NoPen);
+    setCursor(Qt::ArrowCursor);
     paintArea->setConnect(false);
     paintArea->setMoveable(false);
     paintArea->setRemove(false);
@@ -173,6 +183,7 @@ void PaintWindow::on_action_ellipse_triggered()
     originalStyle=pen.style();
     paintArea->setShape(Ellipse);
     pen.setStyle(Qt::NoPen);
+    setCursor(Qt::ArrowCursor);
     paintArea->setConnect(false);
     paintArea->setMoveable(false);
     paintArea->setRemove(false);
@@ -182,6 +193,7 @@ void PaintWindow::on_action_rectangle_triggered(){
     originalStyle=pen.style();
     paintArea->setShape(Rectangle);
     pen.setStyle(Qt::NoPen);
+    setCursor(Qt::ArrowCursor);
     paintArea->setConnect(false);
     paintArea->setMoveable(false);
     paintArea->setRemove(false);
@@ -193,6 +205,7 @@ void PaintWindow::on_action_bound_triggered()
     originalStyle=pen.style();
     paintArea->setShape(None);
     pen.setStyle(Qt::NoPen);
+    setCursor(Qt::ArrowCursor);
     paintArea->setConnect(true);
     paintArea->setMoveable(false);
     paintArea->setRemove(false);
@@ -204,6 +217,7 @@ void PaintWindow::on_action_moveable_triggered()
     originalStyle=pen.style();
     paintArea->setShape(None);
     pen.setStyle(Qt::NoPen);
+    setCursor(Qt::OpenHandCursor);
     paintArea->setConnect(false);
     paintArea->setMoveable(true);
     paintArea->setRemove(false);
@@ -214,6 +228,7 @@ void PaintWindow::on_action_delete_triggered()
     originalStyle=pen.style();
     paintArea->setShape(None);
     pen.setStyle(Qt::NoPen);
+    setCursor(Qt::ArrowCursor);
     paintArea->setConnect(false);
     paintArea->setMoveable(false);
     paintArea->setRemove(true);
