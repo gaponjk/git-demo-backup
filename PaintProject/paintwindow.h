@@ -55,6 +55,10 @@ private slots:
 
     void on_action_bound_triggered();
 
+    void on_action_moveable_triggered();
+
+    void on_action_delete_triggered();
+
 private:
     int width;
     Ui::PaintWindow *ui;
@@ -67,5 +71,6 @@ private:
     QImage* image_backrownd;
     PaintArea *paintArea;
     void combineImages();
+    void settingPen();
 };
 #endif // PAINTWINDOW_H

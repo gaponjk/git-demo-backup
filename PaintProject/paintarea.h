@@ -9,14 +9,14 @@ class PaintArea : public QWidget {
     Q_OBJECT
 
 public:
-
-
     PaintArea(QWidget *parent = nullptr);
     ~PaintArea();
     void setShape(Shape shape);
     void setColor(QColor color);
     void setWidth(int width);
     void setConnect(bool connect);
+    void setMoveable(bool moveable);
+    void setRemove(bool remove);
     void mousePressEvent(QMouseEvent *event) override;
     void mouseMoveEvent(QMouseEvent *event) override;
     void mouseReleaseEvent(QMouseEvent *event) override;
@@ -27,7 +27,12 @@ public:
     Shape getCurrentShape(){
         return currentShape;
     }
-    void enableConnectionMode();
+    bool getMoveable(){
+        return moveable;
+    }
+    bool getDrawing(){
+        return drawing;
+    }
 protected:
 
 private:
@@ -44,12 +49,21 @@ private:
     QPoint firstConnectionPoint;
     bool isFirstPointSelected;
     QList<QPair<QPolygon, QPair<QPoint, QPoint>>> shapes;
+    bool moving;
+    QPair<QPolygon, QPair<QPoint, QPoint>> *movingShape;
+    QList<QPair<QPoint, QPoint>> connections;
+    QPoint offset;
+    bool moveable;
+    bool remove;
 
     QPolygon drawShape(Shape shape, const QPoint &start, const QPoint &end);
     QPoint getShapeCenter(const QPair<QPoint, QPoint> &shape);
 
     QPolygon getShapeTriangle(const QPoint &start, const QPoint &end);
     QPolygon getShapeEllipse(const QPoint &start, const QPoint &end);
+
+    void updateConnections();
+    void updateRemovels();
 };
 
 #endif // PAINTAREA_H

@@ -6,9 +6,12 @@ PaintArea::PaintArea(QWidget *parent)
     painter.begin(image);
     connectionMode = false;
     isFirstPointSelected = false;
+    moveable=false;
+    moving=false;
 }
 PaintArea::~PaintArea(){
     delete image;
+    painter.end();
 }
 
 void PaintArea::setShape(Shape shape) {
@@ -16,10 +19,37 @@ void PaintArea::setShape(Shape shape) {
 }
 
 void PaintArea::mousePressEvent(QMouseEvent *event) {
+    startPoint = event->pos();
+    startPoint -= QPoint(0, 20);
     if (event->button() == Qt::LeftButton && currentShape != None) {
-        startPoint = event->pos();
-        startPoint -= QPoint(0,20);
         drawing = true;
+    }
+    if (moveable&&event->button() == Qt::LeftButton) {
+        for (auto &shape : shapes) {
+            if (shape.first.containsPoint(event->pos() - QPoint(0, 20), Qt::OddEvenFill)) {
+                moving = true;
+                movingShape = &shape;
+                break;
+            }
+        }
+    }
+    if (remove) {//хоть я тут использовал лист, что некоректно для скорости работы программы, т к лист не предназанчен для поиска по индексу, однако в остальных случая стабильность работы программы под воросом
+        for (int i = 0; i < shapes.size(); ++i) {
+            if (shapes[i].first.containsPoint(event->pos() - QPoint(0, 20), Qt::OddEvenFill) && event->button() == Qt::LeftButton) {
+
+                for (int j = 0; j < connections.size(); ) {
+                    if (shapes[i].first.containsPoint(connections[j].first, Qt::OddEvenFill) ||
+                        shapes[i].first.containsPoint(connections[j].second, Qt::OddEvenFill)) {
+                        connections.removeAt(j);
+                    } else {
+                        ++j;
+                    }
+                }
+                shapes.removeAt(i);
+                --i;
+            }
+        }
+        updateRemovels();
     }
     if (connectionMode) {
         bool clickedOnShape = false;
@@ -35,6 +65,7 @@ void PaintArea::mousePressEvent(QMouseEvent *event) {
                 } else {
                     painter.setPen(pen);
                     painter.drawLine(firstConnectionPoint, center);
+                    connections.append(qMakePair(firstConnectionPoint, center));
                     isFirstPointSelected = false;
                     update();
                 }
@@ -45,8 +76,12 @@ void PaintArea::mousePressEvent(QMouseEvent *event) {
             isFirstPointSelected = false;
     }else
         isFirstPointSelected = false;
-    if (event->button() == Qt::RightButton)
-    isFirstPointSelected = false;
+    if (event->button() == Qt::RightButton){
+        drawing = false;
+        isFirstPointSelected = false;
+        moving = false;
+        movingShape = nullptr;
+    }
 }
 
 void PaintArea::mouseMoveEvent(QMouseEvent *event) {
@@ -54,18 +89,41 @@ void PaintArea::mouseMoveEvent(QMouseEvent *event) {
         currentPoint = event->pos();
         currentPoint-= QPoint(0,20);
         update();
+    }else if (moving && movingShape) {
+        QPoint newCenter = event->pos() - QPoint(0, 20);
+        QPoint oldCenter = getShapeCenter(movingShape->second);
+        for ( auto &connection : connections) {
+            if(connection.first==oldCenter)
+                connection.first=newCenter;
+            else if(connection.second==oldCenter)
+                connection.second=newCenter;
+        }
+
+        QPoint delta = newCenter - oldCenter;
+
+        movingShape->second.first += delta;
+        movingShape->second.second += delta;
+
+        QPolygon newPolygon;
+        for (int i = 0; i < movingShape->first.size(); ++i) {
+            newPolygon << (movingShape->first.point(i) + delta);
+        }
+        movingShape->first = newPolygon;
+
+
+        update();
     }
 }
 
 void PaintArea::mouseReleaseEvent(QMouseEvent *event) {
-    if (currentShape==None)
-        return;
     if (event->button() == Qt::LeftButton && drawing ) {
         drawing = false;
         shapes.append(qMakePair( drawShape(currentShape, startPoint, currentPoint), qMakePair(startPoint, currentPoint)));
         update();
-    } else if (event->button() == Qt::RightButton) {
-        drawing = false;
+    } else if (event->button() == Qt::LeftButton && moveable) {
+        updateConnections();
+        moving = false;
+        movingShape = nullptr;
         update();
     }
 }
@@ -74,6 +132,8 @@ void PaintArea::keyReleaseEvent(QKeyEvent *event) {
     if(event->key() == Qt::Key_Escape){
         drawing =false;
         isFirstPointSelected = false;
+        moving = false;
+        movingShape = nullptr;
         update();
     }
 }
@@ -128,8 +188,15 @@ QPoint PaintArea::getShapeCenter(const QPair<QPoint, QPoint> &shape) {
 void PaintArea::setConnect(bool connect){
     this->connectionMode=connect;
 }
+void PaintArea::setMoveable(bool moveable){
+    this->moveable=moveable;
+}
+void PaintArea::setRemove(bool remove){
+    this->remove=remove;
+}
+
 void PaintArea::setColor(QColor color){
-     this->color=color;
+    this->color=color;
     pen.setWidth(width);
     pen.setColor(color);
    painter.setPen(pen);
@@ -139,4 +206,46 @@ void PaintArea::setWidth(int width){
     pen.setWidth(width);
     pen.setColor(color);
     painter.setPen(pen);
+}
+
+void PaintArea::updateConnections() {
+    image->fill(Qt::transparent);
+    painter.end();
+    painter.begin(image);
+    painter.setPen(pen);
+
+    for (const auto &shape : shapes) {
+        painter.drawPolygon(shape.first);
+    }
+
+    for (const auto &connection : connections) {
+        bool isLeft = false, isRight = false;
+        for (const auto &shape : shapes) {
+            if (shape.first.containsPoint(connection.first, Qt::OddEvenFill))
+                isLeft = true;
+            if (shape.first.containsPoint(connection.second, Qt::OddEvenFill))
+                isRight = true;
+        }
+        if (isLeft && isRight)
+            painter.drawLine(connection.first, connection.second);
+         else if (isLeft)
+            painter.drawLine(connection.first, getShapeCenter(movingShape->second));
+         else if (isRight)
+            painter.drawLine(getShapeCenter(movingShape->second), connection.second);
+    }
+    update();
+}
+void PaintArea::updateRemovels(){
+    image->fill(Qt::transparent);
+    painter.end();
+    painter.begin(image);
+    painter.setPen(pen);
+
+    for (const auto &shape : shapes) {
+        painter.drawPolygon(shape.first);
+    }
+    for (const auto &connection : connections) {
+        painter.drawLine(connection.first, connection.second);
+    }
+    update();
 }

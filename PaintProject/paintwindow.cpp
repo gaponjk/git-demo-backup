@@ -12,6 +12,7 @@ PaintWindow::PaintWindow(QWidget *parent)
     image_backrownd=new QImage(ui->label->size(), QImage::Format_RGB32);
     image_backrownd->fill(Qt::white);
     ui->label2->setPixmap(QPixmap::fromImage(*image));
+    ui->label3->setPixmap(QPixmap::fromImage(*image));
     ui->label->setPixmap(QPixmap::fromImage(*image_backrownd));
     pen.setColor(color=Qt::black);
     pen.setWidth(width=3);
@@ -55,25 +56,53 @@ void PaintWindow::mouseMoveEvent(QMouseEvent *event) {
     paintArea->mouseMoveEvent(event);
 }
 void PaintWindow::mouseReleaseEvent(QMouseEvent *event) {
-    if (paintArea->getCurrentShape() != None) {
+    if (paintArea->getDrawing() ||paintArea->getMoveable()) {
         paintArea->setColor(color);
         paintArea->setWidth(width);
-        paintArea->mouseReleaseEvent(event);
 
+        paintArea->mouseReleaseEvent(event);
         combineImages();
     }
 }
 void PaintWindow::combineImages(){
-    QImage combinedImage = paintArea->getImage();
-    QPainter painter2(&combinedImage);
-    painter2.drawImage(QPoint (0,0), *image);
-    painter2.end();
-    *image=combinedImage;
-    ui->label2->setPixmap(QPixmap::fromImage(*image));
+    ui->label3->setPixmap(QPixmap::fromImage(paintArea->getImage()));
 }
 
 void PaintWindow::keyReleaseEvent(QKeyEvent *event){
     paintArea->keyReleaseEvent(event);
+}
+
+
+
+void PaintWindow::on_action_save_triggered()
+{
+    if (!image->isNull()) {
+        QString fileName = QFileDialog::getSaveFileName(this, tr("Сохранить изображение"), "", tr("(*.png);;(*.jpg)"));
+        if (!fileName.isEmpty()) {
+            if (image->save(fileName)) {
+                ui->statusbar->showMessage("Изобржаение сохранено успешно");
+            } else {
+                ui->statusbar->showMessage("Не удалось сохранить изображение");
+            }
+        }
+    } else {
+        ui->statusbar->showMessage("Нет изобржения для сохранения");
+    }
+}
+
+
+void PaintWindow::on_action_jpg_triggered()
+{
+   QString fileName = QFileDialog::getOpenFileName(this, tr("Открыть изображение"), "", tr("(*.png);;(*.jpg)"));
+    if (!fileName.isEmpty()) {
+       if (image->load(fileName)) {
+            ui->label2->setPixmap(QPixmap::fromImage(*image));
+            ui->label2->adjustSize();
+            ui->statusbar->showMessage("Изобржаение открыто успешно");
+        } else {
+           ui->statusbar->showMessage("Не удалось открыть изображение");
+        }
+    }
 }
 void PaintWindow::on_painter_color_triggered()
 {
@@ -117,78 +146,84 @@ void PaintWindow::on_action3_triggered()
 }
 
 
-
 void PaintWindow::on_action_pen_triggered()
 {
+    paintArea->setRemove(false);
+    paintArea->setMoveable(false);
     paintArea->setConnect(false);
     paintArea->setShape(None);
-    pen.setStyle(originalStyle);
-    pen.setColor(color);
-    pen.setWidth(width);
+    settingPen();
 }
 
 void PaintWindow::on_action_triggered()
 {
+    settingPen();
     originalStyle=pen.style();
     paintArea->setShape(Triangle);
     pen.setStyle(Qt::NoPen);
     paintArea->setConnect(false);
+    paintArea->setMoveable(false);
+    paintArea->setRemove(false);
 }
 
 
 void PaintWindow::on_action_ellipse_triggered()
 {
+    settingPen();
     originalStyle=pen.style();
     paintArea->setShape(Ellipse);
     pen.setStyle(Qt::NoPen);
     paintArea->setConnect(false);
+    paintArea->setMoveable(false);
+    paintArea->setRemove(false);
 }
 void PaintWindow::on_action_rectangle_triggered(){
+    settingPen();
     originalStyle=pen.style();
     paintArea->setShape(Rectangle);
-
     pen.setStyle(Qt::NoPen);
     paintArea->setConnect(false);
+    paintArea->setMoveable(false);
+    paintArea->setRemove(false);
 }
-
-
-void PaintWindow::on_action_save_triggered()
-{
-    if (!image->isNull()) {
-        QString fileName = QFileDialog::getSaveFileName(this, tr("Сохранить изображение"), "", tr("(*.png);;(*.jpg)"));
-        if (!fileName.isEmpty()) {
-            if (image->save(fileName)) {
-                ui->statusbar->showMessage("Изобржаение сохранено успешно");
-            } else {
-                ui->statusbar->showMessage("Не удалось сохранить изображение");
-            }
-        }
-    } else {
-        ui->statusbar->showMessage("Нет изобржения для сохранения");
-    }
-}
-
-
-void PaintWindow::on_action_jpg_triggered()
-{
-   QString fileName = QFileDialog::getOpenFileName(this, tr("Открыть изображение"), "", tr("(*.png);;(*.jpg)"));
-    if (!fileName.isEmpty()) {
-       if (image->load(fileName)) {
-            ui->label2->setPixmap(QPixmap::fromImage(*image));
-            ui->label2->adjustSize();
-            ui->statusbar->showMessage("Изобржаение открыто успешно");
-        } else {
-           ui->statusbar->showMessage("Не удалось открыть изображение");
-        }
-    }
-}
-
 
 void PaintWindow::on_action_bound_triggered()
 {
+    settingPen();
     originalStyle=pen.style();
     paintArea->setShape(None);
     pen.setStyle(Qt::NoPen);
     paintArea->setConnect(true);
+    paintArea->setMoveable(false);
+    paintArea->setRemove(false);
 }
+
+void PaintWindow::on_action_moveable_triggered()
+{
+    settingPen();
+    originalStyle=pen.style();
+    paintArea->setShape(None);
+    pen.setStyle(Qt::NoPen);
+    paintArea->setConnect(false);
+    paintArea->setMoveable(true);
+    paintArea->setRemove(false);
+}
+void PaintWindow::on_action_delete_triggered()
+{
+    settingPen();
+    originalStyle=pen.style();
+    paintArea->setShape(None);
+    pen.setStyle(Qt::NoPen);
+    paintArea->setConnect(false);
+    paintArea->setMoveable(false);
+    paintArea->setRemove(true);
+}
+void PaintWindow::settingPen(){
+    pen.setStyle(originalStyle);
+    pen.setColor(color);
+    pen.setWidth(width);
+}
+
+
+
 
