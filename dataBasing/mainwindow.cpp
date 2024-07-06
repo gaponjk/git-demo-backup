@@ -157,9 +157,9 @@ void MainWindow::on_myOrders_clicked()
     ui->textBrowser->append("Мои заказы:\n");
     while (query.next()){
         ui->textBrowser->append("Композиция: "+query.value(rec.indexOf("Composition")).toString()
-                                +" Количество: "+query.value(rec.indexOf("Count")).toString()+"  Стоимость: "+
+                                +" Количество: "+query.value(rec.indexOf("Amount")).toString()+"  Стоимость: "+
                                 query.value(rec.indexOf("Cost")).toString()+"  Дата заказа: "+
-                                query.value(rec.indexOf("Order_date")).toString()+" Дата выполнения: "+
+                                query.value(rec.indexOf("OrderDate")).toString()+" Дата выполнения: "+
                                 query.value(rec.indexOf("FinalDate")).toString());
     }
     base->close();
