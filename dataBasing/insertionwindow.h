@@ -7,6 +7,7 @@
 #include <QtSql>
 #include <QMessageBox>
 #include<QButtonGroup>
+//класс для добаления заказа
 namespace Ui {
 class insertionwindow;
 }
@@ -25,8 +26,8 @@ private slots:
 
 private:
     Ui::insertionwindow *ui;
-    QString login;
-    QButtonGroup *buttonGroup;
+    QString login;//логин
+    QButtonGroup *buttonGroup;//группа кнопое для удобства работы со switch
     QString setDate(QDate& date);
 };
 

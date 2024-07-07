@@ -7,7 +7,7 @@ PaintWindow::PaintWindow(QWidget *parent)
 {
     ui->setupUi(this);
 
-    image = new QImage(ui->label2->size(), QImage::Format_ARGB32);
+    image = new QImage(ui->label2->size(), QImage::Format_ARGB32);//ARGB, потому что тогда изображение изначально прозрачное
     //image_backrownd->fill(Qt::transparent);
     image_backrownd=new QImage(ui->label->size(), QImage::Format_RGB32);
     image_backrownd->fill(Qt::white);
@@ -30,24 +30,21 @@ PaintWindow::~PaintWindow()
     delete paintArea;
 }
 
-void PaintWindow::mousePressEvent(QMouseEvent *event) {
+void PaintWindow::mousePressEvent(QMouseEvent *event) {//движение мыши
     if (event->button() == Qt::LeftButton) {
         drawing = true;
         lastPoint = event->pos();
         lastPoint -= QPoint(0,20);
     }
     if(paintArea->getMoveable())
-        setCursor(Qt::ClosedHandCursor);
-    paintArea->mousePressEvent(event);
-
-
-
+        setCursor(Qt::ClosedHandCursor);//ставлю курсор если двигаю фигуру
+    paintArea->mousePressEvent(event);//для обратботки фигур связей и удаления
 
     combineImages();
 }
 
-void PaintWindow::mouseMoveEvent(QMouseEvent *event) {
-    if (drawing && (event->buttons() & Qt::LeftButton)) {
+void PaintWindow::mouseMoveEvent(QMouseEvent *event) {//движение мыши
+    if (drawing && (event->buttons() & Qt::LeftButton)) {//рисую карандашом, соеденяя точки
         QPoint currentPoint = event->pos();
         currentPoint -= QPoint(0,20);
 
@@ -59,37 +56,37 @@ void PaintWindow::mouseMoveEvent(QMouseEvent *event) {
         QPixmap map(QPixmap::fromImage(*image));
         ui->label2->setPixmap(map);
     }
-    paintArea->mouseMoveEvent(event);
+    paintArea->mouseMoveEvent(event);//для обратботки фигур связей и удаления
 }
-void PaintWindow::mouseReleaseEvent(QMouseEvent *event) {
+void PaintWindow::mouseReleaseEvent(QMouseEvent *event) {//отпускание мыши
     if (paintArea->getDrawing() ||paintArea->getMoveable()) {
         paintArea->setColor(color);
         paintArea->setWidth(width);
 
-        paintArea->mouseReleaseEvent(event);
+        paintArea->mouseReleaseEvent(event);//для обратботки фигур связей и удаления
         combineImages();
     }
     if(paintArea->getMoveable())
-       setCursor(Qt::OpenHandCursor);
+       setCursor(Qt::OpenHandCursor);//ставлю курсор если перестаю двигать фигуру
 }
-void PaintWindow::combineImages(){
+void PaintWindow::combineImages(){//для того чтобы вывести слой с фигурами и связями
     ui->label3->setPixmap(QPixmap::fromImage(paintArea->getImage()));
 }
 
-void PaintWindow::keyReleaseEvent(QKeyEvent *event){
-    paintArea->keyReleaseEvent(event);
+void PaintWindow::keyReleaseEvent(QKeyEvent *event){//отпускание кнопки
+    paintArea->keyReleaseEvent(event);//для реализаци отмены деяствия с фигурами удалением и связями
 }
 
 
 
-void PaintWindow::on_action_save_triggered() {
+void PaintWindow::on_action_save_triggered() {//копка Сохранить
     QMessageBox::warning(this,"Сохранение файла","При сохранении Ваша работа будет сохранена в два файла:"
                                                    "\n-Бинарный файл с фигурами и их связими\n-JPG Файл с фоном и тем, что вы писали карандашом.\n");
     paintArea->setRemove(false);
     paintArea->setMoveable(false);
     paintArea->setConnect(false);
     paintArea->setShape(None);
-    setCursor(Qt::ArrowCursor);
+    setCursor(Qt::ArrowCursor);//на всякий случай
     settingPen();
     QPainter painter(image_backrownd);
     painter.drawImage(0, 0, *image);
@@ -101,17 +98,17 @@ void PaintWindow::on_action_save_triggered() {
             bool binSaved = paintArea->saveFile(fileName);
 
             QString jpegFileName = fileName;
-            jpegFileName.replace(jpegFileName.length() - 4, 4, ".jpg");
+            jpegFileName.replace(jpegFileName.length() - 4, 4, ".jpg");// я сохраняю два файла, бинарный файл с фигурами и .jpg файл с фоном и карандашом
             bool jpgSaved = image_backrownd->save(jpegFileName);
 
             if (binSaved && jpgSaved) {
-                ui->statusbar->showMessage("Изображение сохранено успешно");
+                ui->statusbar->showMessage("Изображение сохранено успешно");//на всякий
             } else {
                 ui->statusbar->showMessage("Не удалось сохранить изображение");
             }
         }
     } else {
-        ui->statusbar->showMessage("Нет изображения для сохранения");
+        ui->statusbar->showMessage("Нет изображения для сохранения");//на всякий
     }
 }
 
@@ -121,12 +118,13 @@ void PaintWindow::on_action_jpg_triggered() {
     paintArea->setMoveable(false);
     paintArea->setConnect(false);
     paintArea->setShape(None);
-    setCursor(Qt::ArrowCursor);
+    setCursor(Qt::ArrowCursor);//на всякий
     settingPen();
     if (!fileName.isEmpty()) {
         if (paintArea->loadFile(fileName)) {
             QString jpegFileName = fileName;
-            jpegFileName.replace(jpegFileName.length() - 4, 4, ".jpg");
+            jpegFileName.replace(jpegFileName.length() - 4, 4, ".jpg");//сразу открывается и бинарный и jpg файл, это все сделано для того,
+            //чтобы можно было работать с фигурамми
 
             if (image_backrownd->load(jpegFileName)) {
                 combineImages();
@@ -137,11 +135,11 @@ void PaintWindow::on_action_jpg_triggered() {
                 ui->statusbar->showMessage("Не удалось открыть изображение в формате JPG");
             }
         } else {
-            ui->statusbar->showMessage("Не удалось открыть изображение в формате BIN");
+            ui->statusbar->showMessage("Не удалось открыть изображение в формате BIN");//на всякий
         }
     }
 }
-void PaintWindow::on_painter_color_triggered()
+void PaintWindow::on_painter_color_triggered()//меняю цвет карандаша фигуры связи
 {
     color = QColorDialog::getColor(Qt::white, this, "Выберите цвет карандаша или фигуры");
     if(color.isValid()){
@@ -151,7 +149,7 @@ void PaintWindow::on_painter_color_triggered()
 }
 
 
-void PaintWindow::on_backrownd_color_triggered()
+void PaintWindow::on_backrownd_color_triggered()//меняю цвет фона
 {
     QColor colorb = QColorDialog::getColor(Qt::white, this, "Выберите цвет фона");
     image_backrownd->fill(colorb);
@@ -159,7 +157,7 @@ void PaintWindow::on_backrownd_color_triggered()
 }
 
 
-void PaintWindow::on_action5_triggered()
+void PaintWindow::on_action5_triggered()//следующие три метода для изменения ширины у фигуры карандаша и связи
 {
     width=5;
     paintArea->setWidth(5);
@@ -183,7 +181,7 @@ void PaintWindow::on_action3_triggered()
 }
 
 
-void PaintWindow::on_action_pen_triggered()
+void PaintWindow::on_action_pen_triggered()//для активации каранадаша, несмотря на то что карандаш работает по дефолту
 {
     paintArea->setRemove(false);
     paintArea->setMoveable(false);
@@ -193,7 +191,7 @@ void PaintWindow::on_action_pen_triggered()
     settingPen();
 }
 
-void PaintWindow::on_action_triggered()
+void PaintWindow::on_action_triggered()//для отрисовки треугольника
 {
     settingPen();
     originalStyle=pen.style();
@@ -206,7 +204,7 @@ void PaintWindow::on_action_triggered()
 }
 
 
-void PaintWindow::on_action_ellipse_triggered()
+void PaintWindow::on_action_ellipse_triggered()//для отрисовки эллипса
 {
     settingPen();
     originalStyle=pen.style();
@@ -217,7 +215,7 @@ void PaintWindow::on_action_ellipse_triggered()
     paintArea->setMoveable(false);
     paintArea->setRemove(false);
 }
-void PaintWindow::on_action_rectangle_triggered(){
+void PaintWindow::on_action_rectangle_triggered(){//для отрисовки прямоугольника
     settingPen();
     originalStyle=pen.style();
     paintArea->setShape(Rectangle);
@@ -228,7 +226,7 @@ void PaintWindow::on_action_rectangle_triggered(){
     paintArea->setRemove(false);
 }
 
-void PaintWindow::on_action_bound_triggered()
+void PaintWindow::on_action_bound_triggered()//для отрисовки связи между фигурами
 {
     settingPen();
     originalStyle=pen.style();
@@ -240,7 +238,7 @@ void PaintWindow::on_action_bound_triggered()
     paintArea->setRemove(false);
 }
 
-void PaintWindow::on_action_moveable_triggered()
+void PaintWindow::on_action_moveable_triggered()//для передвижения фигуры
 {
     settingPen();
     originalStyle=pen.style();
@@ -251,7 +249,7 @@ void PaintWindow::on_action_moveable_triggered()
     paintArea->setMoveable(true);
     paintArea->setRemove(false);
 }
-void PaintWindow::on_action_delete_triggered()
+void PaintWindow::on_action_delete_triggered()//для удаления фигур с ее связми
 {
     settingPen();
     originalStyle=pen.style();
@@ -262,7 +260,7 @@ void PaintWindow::on_action_delete_triggered()
     paintArea->setMoveable(false);
     paintArea->setRemove(true);
 }
-void PaintWindow::settingPen(){
+void PaintWindow::settingPen(){//для удобства
     pen.setStyle(originalStyle);
     pen.setColor(color);
     pen.setWidth(width);

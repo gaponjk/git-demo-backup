@@ -6,7 +6,7 @@ insertionwindow::insertionwindow(QWidget *parent)
     , ui(new Ui::insertionwindow)
 {
     ui->setupUi(this);
-    buttonGroup = new QButtonGroup(this);
+    buttonGroup = new QButtonGroup(this);//нумерую кнопки
     buttonGroup->addButton(ui->radioButton, 1);
     buttonGroup->addButton(ui->radioButton2, 2);
     buttonGroup->addButton(ui->radioButton3, 3);
@@ -17,10 +17,10 @@ insertionwindow::~insertionwindow()
 {
     delete ui;
 }
-void insertionwindow::setLogin(const QString& login){
+void insertionwindow::setLogin(const QString& login){//получаю логин из основного класса
     this->login=login;
 }
-QString insertionwindow::setDate(QDate& date){
+QString insertionwindow::setDate(QDate& date){//внутренний метод для форматирования даты
     QString formateDate;
     if(date.day()<10)
         formateDate="0"+QString::number(date.day());
@@ -31,7 +31,8 @@ QString insertionwindow::setDate(QDate& date){
     return formateDate;
 }
 
-void insertionwindow::on_buttonBox_accepted()
+void insertionwindow::on_buttonBox_accepted()// проверяю можно ли добавить в базу данных введенную информацию и
+    //добавляю если она соответсвуе критериям
 {
     QDate d1=ui->dateEdit->date(), d2=ui->dateEdit2->date();
     int count=d1.daysTo(d2);

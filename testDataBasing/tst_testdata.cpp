@@ -1,6 +1,7 @@
 #include <QtTest>
 #include"checker.h"
-// add necessary includes here
+//Гапоненко Яросав Александрович 5 группа
+//Unit test
 
 class testData : public QObject
 {
@@ -29,7 +30,7 @@ void testData::test_case1()
 {
 
 }
-
+//я проверял правильность ввода логина и пороля
 void testData::rights()
 {
     Checker check;
@@ -39,7 +40,7 @@ void testData::rights()
 void testData::loginPassword()
 {
     Checker check;
-    QCOMPARE(check.loginPassword("5454w54*-+","pas45252sword"),false);
+    QCOMPARE(check.loginPassword("5454w54*-+","pas452 52sword"),false);
     QCOMPARE(check.loginPassword("",""),false);
     QCOMPARE(check.loginPassword("Логин","Пароль"),false);
 }

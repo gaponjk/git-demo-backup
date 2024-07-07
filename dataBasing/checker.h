@@ -4,6 +4,7 @@
 #include <QtSql/QSqlDatabase>
 #include <QtSql>
 #include <QMessageBox>
+// с этим классом проверяю на корректность введенного пароля и логина в классе PassWindow
 class Checker{
 public:
     static bool right(const QString& login);

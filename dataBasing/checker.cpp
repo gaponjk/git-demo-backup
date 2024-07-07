@@ -1,6 +1,6 @@
 #include "checker.h"
 
-bool Checker::loginPassword(const QString &login, const QString &password){
+bool Checker::loginPassword(const QString &login, const QString &password){//проверяю на соответсвие регулярному выражению
     QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
     base.setDatabaseName("dataBase.db");
     base.open();
@@ -19,7 +19,7 @@ bool Checker::loginPassword(const QString &login, const QString &password){
         return 0;
     }
 }
-bool Checker::right(const QString &login){
+bool Checker::right(const QString &login){//узнаю права пользователя
     QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
     base.setDatabaseName("dataBase.db");
     base.open();

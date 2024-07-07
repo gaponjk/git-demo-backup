@@ -6,7 +6,7 @@ deletewindow::deletewindow(QWidget *parent) :
     ui(new Ui::deletewindow)
 {
     ui->setupUi(this);
-    buttonGroup = new QButtonGroup(this);
+    buttonGroup = new QButtonGroup(this);//нумерую кнопки
     buttonGroup->addButton(ui->radioButton, 1);
     buttonGroup->addButton(ui->radioButton2, 2);
     buttonGroup->addButton(ui->radioButton3, 3);
@@ -18,7 +18,7 @@ deletewindow::~deletewindow()
     delete ui;
 }
 
-void deletewindow::setLogin(const QString& login){
+void deletewindow::setLogin(const QString& login){//получаю логин из основного класса
     this->login=login;
 }
 QString deletewindow::setDate(QDate& date){
@@ -33,7 +33,7 @@ QString deletewindow::setDate(QDate& date){
 }
 
 void deletewindow::on_buttonBox_accepted()//могут возникать проблемы с композицией, потому что в базе данных может кто то написать К английскую
-{
+{//нахожу заказ в базе данных и удаляю его
     QDate d1=ui->dateEdit->date(), d2=ui->dateEdit2->date();
     QSqlDatabase base=QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
     base.setDatabaseName("dataBase.db");

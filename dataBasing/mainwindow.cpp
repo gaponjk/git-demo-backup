@@ -22,23 +22,23 @@ MainWindow::~MainWindow()
     delete deletion;
     delete base;
 }
-void MainWindow::setStatus(){
+void MainWindow::setStatus(){//задаю права
     rights=true;
 }
 
-void MainWindow::setLogin(const QString& login){
+void MainWindow::setLogin(const QString& login){//вывожу логин в основное окно
     this->login=login;
     ui->name->setText(ui->name->text()+login);
     sign=true;
 }
 
-void MainWindow::mousePressEvent(QMouseEvent *event) {
+void MainWindow::mousePressEvent(QMouseEvent *event) {//для проверки того авторизовалс яопльзователь или нет
     if (!sign&&event->button() == Qt::LeftButton) {
         QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
     }
 }
 
-QString MainWindow::setDate(QDate& date){
+QString MainWindow::setDate(QDate& date){//внутрення функция, которую я использовал, чтобы преобразовывать дату в нужный формат
     QString formateDate;
     if(date.day()<10)
         formateDate="0"+QString::number(date.day());
@@ -51,7 +51,7 @@ QString MainWindow::setDate(QDate& date){
 
 
 
-void MainWindow::on_allFlowers_clicked()
+void MainWindow::on_allFlowers_clicked()//вывод всех цветков
 {
     if(!sign){
         QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
@@ -80,7 +80,7 @@ void MainWindow::on_allFlowers_clicked()
 }
 
 
-void MainWindow::on_allOrders_clicked()
+void MainWindow::on_allOrders_clicked()//вывод всех заказов
 {
     if(!sign){
         QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
@@ -113,31 +113,31 @@ void MainWindow::on_allOrders_clicked()
 }
 
 
-void MainWindow::on_deleteOrder_clicked()
+void MainWindow::on_deleteOrder_clicked()// кнопка удаление заказа
 {
     if(!sign){
         QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
         return;
     }
-    deletion=new deletewindow();
+    deletion=new deletewindow();//открываю для этого отдельное окно
     deletion->setLogin(login);
     deletion->show();
 }
 
 
-void MainWindow::on_makeOrder_clicked()
+void MainWindow::on_makeOrder_clicked()//кнопка добалвление заказа
 {
     if(!sign){
         QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
         return;
     }
-    insertion=new insertionwindow();
+    insertion=new insertionwindow();//открываю для этого отдельное окно
     insertion->setLogin(login);
     insertion->show();
 }
 
 
-void MainWindow::on_myOrders_clicked()
+void MainWindow::on_myOrders_clicked()//посмотреть свои заказы
 {
     if(!sign){
         QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
@@ -166,7 +166,7 @@ void MainWindow::on_myOrders_clicked()
 }
 
 
-void MainWindow::on_orderedFlowers_clicked()
+void MainWindow::on_orderedFlowers_clicked()//какие цветы были заказаны
 {
     if(!sign){
         QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
@@ -203,7 +203,7 @@ void MainWindow::on_orderedFlowers_clicked()
 }
 
 
-void MainWindow::on_periodMoney_clicked()
+void MainWindow::on_periodMoney_clicked()//какие деньги были заработаны за период
 {
     if(!sign){
         QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
@@ -234,7 +234,7 @@ void MainWindow::on_periodMoney_clicked()
 }
 
 
-void MainWindow::on_periodOrders_clicked()
+void MainWindow::on_periodOrders_clicked()//какие заказы были сделаны за период
 {
     if(!sign){
         QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
@@ -274,7 +274,7 @@ void MainWindow::on_periodOrders_clicked()
 }
 
 
-void MainWindow::on_popComp_clicked()
+void MainWindow::on_popComp_clicked()//популярность композиций
 {
     if(!sign){
         QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
@@ -303,7 +303,7 @@ void MainWindow::on_popComp_clicked()
 }
 
 
-void MainWindow::on_allComposition_clicked()
+void MainWindow::on_allComposition_clicked()//вывод всех композиций
 {
     if(!sign){
         QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);

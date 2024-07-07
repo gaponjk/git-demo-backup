@@ -51,13 +51,13 @@ private slots:
 
 private:
     Ui::MainWindow *ui;
-    PassWindow* pass;
-    insertionwindow* insertion;
-    deletewindow* deletion;
-    QSqlDatabase *base;
-    QString login;
-    bool rights=false;
-    bool sign=false;
+    PassWindow* pass;//окно с вводом логина и пароля
+    insertionwindow* insertion;//окно в добавлением заказа
+    deletewindow* deletion;//с удалением заказа
+    QSqlDatabase *base;//база данных dataBase.db
+    QString login;//логин пользователя
+    bool rights=false;//админ ли пользователь
+    bool sign=false;//зарегестрировался пользователь или нет
     QString setDate(QDate& date);
 };
 #endif // MAINWINDOW_H

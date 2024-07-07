@@ -63,15 +63,15 @@ private:
     int width;
     Ui::PaintWindow *ui;
     QColor color;
-    Qt::PenStyle originalStyle;
-    QPoint lastPoint;
-    bool drawing;
-    QPen pen;
-    QImage* image;
-    QImage* image_backrownd;
+    Qt::PenStyle originalStyle;//для сохранения стиля перед тем как я его удаляю у карандаша
+    QPoint lastPoint;//для непрерывности карандаша
+    bool drawing;//когда рисую карандашом
+    QPen pen;//сам карандаш, так же я его использую чтобы задавать цвет и толщину фигурам и связям
+    QImage* image;//где я рисую карандашом
+    QImage* image_backrownd;//фон
     PaintArea *paintArea;
-    void combineImages();
-    void settingPen();
+    void combineImages();//для того чтобы вывести слой с фигурами и связями
+    void settingPen();//для того чтобы было удобно задавать карандаш
 
 };
 #endif // PAINTWINDOW_H

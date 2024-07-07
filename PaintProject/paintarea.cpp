@@ -23,10 +23,10 @@ void PaintArea::setShape(Shape shape) {
 void PaintArea::mousePressEvent(QMouseEvent *event) {
     startPoint = event->pos();
     startPoint -= QPoint(0, 20);
-    if (event->button() == Qt::LeftButton && currentShape != None) {
+    if (event->button() == Qt::LeftButton && currentShape != None) {//если я собираюсь отрисовывать фигуру
         drawing = true;
     }
-    if (moveable&&event->button() == Qt::LeftButton) {
+    if (moveable&&event->button() == Qt::LeftButton) {//если я собираюсь перемещать фигуру
         for (auto &shape : shapes) {
             if (shape.first.containsPoint(event->pos() - QPoint(0, 20), Qt::OddEvenFill)) {
                 moving = true;
@@ -35,8 +35,8 @@ void PaintArea::mousePressEvent(QMouseEvent *event) {
             }
         }
     }
-    if (remove) {//самый стабильный варинат работы
-        for (int i = 0; i < shapes.size(); ++i) {
+    if (remove) {//если я собираюсь удалять фигуру с коннекторами
+        for (int i = 0; i < shapes.size(); ++i) {//самый стабильный варинат работы
             if (shapes[i].first.containsPoint(event->pos() - QPoint(0, 20), Qt::OddEvenFill) && event->button() == Qt::LeftButton) {
 
                 for (int j = 0; j < connections.size(); ) {
@@ -56,7 +56,7 @@ void PaintArea::mousePressEvent(QMouseEvent *event) {
         }
         updateRemovels();
     }
-    if (connectionMode) {
+    if (connectionMode) {//если я собираюсь добавлять коннекторы между фигурами
         bool clickedOnShape = false;
         for (const auto &shape : shapes) {
             QPoint center = getShapeCenter(shape.second);
@@ -82,7 +82,7 @@ void PaintArea::mousePressEvent(QMouseEvent *event) {
             isFirstPointSelected = false;
     }else
         isFirstPointSelected = false;
-    if (event->button() == Qt::RightButton){
+    if (event->button() == Qt::RightButton){//отмена рисовки коннекторов и перемещения ПКМ
         drawing = false;
         isFirstPointSelected = false;
         moving = false;
@@ -91,11 +91,11 @@ void PaintArea::mousePressEvent(QMouseEvent *event) {
 }
 
 void PaintArea::mouseMoveEvent(QMouseEvent *event) {
-    if (drawing) {
+    if (drawing) {//если я рисую фигуру
         currentPoint = event->pos();
         currentPoint-= QPoint(0,20);
         update();
-    }else if (moving && movingShape) {
+    }else if (moving && movingShape) {//если я двигаю фигуру
         QPoint newCenter = event->pos() - QPoint(0, 20);
         QPoint oldCenter = getShapeCenter(movingShape->second);
         for ( auto &connection : connections) {
@@ -122,13 +122,13 @@ void PaintArea::mouseMoveEvent(QMouseEvent *event) {
 }
 
 void PaintArea::mouseReleaseEvent(QMouseEvent *event) {
-    if (event->button() == Qt::LeftButton && drawing ) {
+    if (event->button() == Qt::LeftButton && drawing ) {//если я рисую фигуру
         drawing = false;
         shapes.append(qMakePair( drawShape(currentShape, startPoint, currentPoint), qMakePair(startPoint, currentPoint)));
         models.append(currentShape);
         shapePens.append(pen);
         update();
-    } else if (event->button() == Qt::LeftButton && moveable) {
+    } else if (event->button() == Qt::LeftButton && moveable) {//если я двигаю фигуру
         updateConnections();
         moving = false;
         movingShape = nullptr;
@@ -136,7 +136,7 @@ void PaintArea::mouseReleaseEvent(QMouseEvent *event) {
     }
 }
 
-void PaintArea::keyReleaseEvent(QKeyEvent *event) {
+void PaintArea::keyReleaseEvent(QKeyEvent *event) {//отмена рисовки коннекторов и перемещения пробел
     if(event->key() == Qt::Key_Escape){
         drawing =false;
         isFirstPointSelected = false;
@@ -146,7 +146,7 @@ void PaintArea::keyReleaseEvent(QKeyEvent *event) {
     }
 }
 
-QPolygon PaintArea::drawShape(Shape shape, const QPoint &start, const QPoint &end) {
+QPolygon PaintArea::drawShape(Shape shape, const QPoint &start, const QPoint &end) {//рисую фигуру и задаю границы у фигур
 
     painter.setPen(pen);
     QPolygon temp;
@@ -169,7 +169,7 @@ QPolygon PaintArea::drawShape(Shape shape, const QPoint &start, const QPoint &en
     return temp;
 }
 
-QPolygon PaintArea::getShapeTriangle(const QPoint &start, const QPoint &end){
+QPolygon PaintArea::getShapeTriangle(const QPoint &start, const QPoint &end){//задаю границы у треугольника
     QPoint top((start.x() + end.x()) / 2, start.y());
     QPoint left(start.x(), end.y());
     QPoint right(end.x(), end.y());
@@ -177,7 +177,7 @@ QPolygon PaintArea::getShapeTriangle(const QPoint &start, const QPoint &end){
     triangle << top << left << right;
     return triangle;
 }
-QPolygon PaintArea::getShapeEllipse(const QPoint &start, const QPoint &end)  {
+QPolygon PaintArea::getShapeEllipse(const QPoint &start, const QPoint &end)  {//задаю границы e эллипса
     QPolygon ellipse;
     QRect rect(start, end);
     int steps = 200;
@@ -189,7 +189,7 @@ QPolygon PaintArea::getShapeEllipse(const QPoint &start, const QPoint &end)  {
     }
     return ellipse;
 }
-QPoint PaintArea::getShapeCenter(const QPair<QPoint, QPoint> &shape) {
+QPoint PaintArea::getShapeCenter(const QPair<QPoint, QPoint> &shape) {//получаю центр
     return (shape.first + shape.second) / 2;
 }
 
@@ -203,20 +203,21 @@ void PaintArea::setRemove(bool remove){
     this->remove=remove;
 }
 
-void PaintArea::setColor(QColor color){
+void PaintArea::setColor(QColor color){//для того чтобы связь между карандашом и фигурами была
     this->color=color;
     pen.setWidth(width);
     pen.setColor(color);
    painter.setPen(pen);
 }
-void PaintArea::setWidth(int width){
+void PaintArea::setWidth(int width){//для того чтобы связь между карандашом и фигурами была
     this->width=width;
     pen.setWidth(width);
     pen.setColor(color);
     painter.setPen(pen);
 }
 
-void PaintArea::updateConnections() {
+void PaintArea::updateConnections() {//после того как фигура перемещена нужно обновлять соеденения и по факту перерисовывать все фигуру и коннекторы
+    //еще нужно учитывать измененное положение фигуры
     image->fill(Qt::transparent);
     painter.end();
     painter.begin(image);
@@ -245,7 +246,7 @@ void PaintArea::updateConnections() {
     }
     update();
 }
-void PaintArea::updateRemovels(){
+void PaintArea::updateRemovels(){//перерисовываю фигуры с коннекторами
     image->fill(Qt::transparent);
     painter.end();
     painter.begin(image);
@@ -259,7 +260,7 @@ void PaintArea::updateRemovels(){
     }
     update();
 }
-bool PaintArea::saveFile(const QString &fileName) {
+bool PaintArea::saveFile(const QString &fileName) {//сериализация фигур и коннекторов
     QFile file(fileName);
     if (!file.open(QIODevice::WriteOnly)) {
         qDebug() << "Не получается открыть файл для записи";
@@ -285,7 +286,7 @@ bool PaintArea::saveFile(const QString &fileName) {
     return true;
 }
 
-bool PaintArea::loadFile(const QString &fileName){
+bool PaintArea::loadFile(const QString &fileName){//десериаализация
 
     QFile file(fileName);
     if (!file.open(QIODevice::ReadOnly)) {

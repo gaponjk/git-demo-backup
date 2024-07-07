@@ -9,7 +9,7 @@
 #include <QtSql/QSqlDatabase>
 #include <QtSql>
 #include<checker.h>
-
+//окно с вводом логина и пароля
 class PassWindow:public QDialog{
     Q_OBJECT
 private:
@@ -19,8 +19,8 @@ private slots:
     void siIn();
     void siUp();
 signals:
-    void is_direction();
-    void send_login(const QString&);
+    void is_direction();//передаю права mainwindow с помщью этого метода
+    void send_login(const QString&);//передаю логин mainwindow с помщью этого метода
 public:
     PassWindow(QWidget* pwgt = 0);
     ~PassWindow();
