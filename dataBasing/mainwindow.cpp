@@ -173,11 +173,11 @@ void MainWindow::on_orderedFlowers_clicked()//какие цветы были з�
         return;
     }
     if(rights){
-    base=new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
-    base->setDatabaseName("dataBase.db");
     QDate d1=ui->dateEdit->date(), d2=ui->dateEdit2->date();
     int count=d1.daysTo(d2);
     if(count>=0){
+        base=new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
+        base->setDatabaseName("dataBase.db");
         base->open();
         if(!base->isOpen()){
             QMessageBox::information(this, "Сообщение", "\tБаза данных не открыта", QMessageBox::Ok);
@@ -196,8 +196,9 @@ void MainWindow::on_orderedFlowers_clicked()//какие цветы были з�
             query2.next();
             ui->textBrowser->append(query2.value(rec2.indexOf("flowerName")).toString()+"  Кол-во проданных штук: "+query.value(rec.indexOf("COUNT(*)")).toString());
         }
+        base->close();
     }
-    base->close();
+
 }else
     QMessageBox::information(this, "Сообщение", "\tВы не имеете надлежащих прав", QMessageBox::Ok);
 }

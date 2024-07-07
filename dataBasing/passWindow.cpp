@@ -57,18 +57,23 @@ void PassWindow::siUp() {//при нажатии этой кнопки реге�
     QString str1 = line1->text();
     QString str2 = line2->text();
 
-    if (Checker::loginPassword(str1, str2) && !str1.isEmpty() && !str2.isEmpty()) {
-        QSqlDatabase db = QSqlDatabase::addDatabase("QSQLITE");
-        db.setDatabaseName("dataBase.db");
-
-        if (!db.open()) {
+    if (Checker::corectness(str1, str2) && !str1.isEmpty() && !str2.isEmpty()) {
+        QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
+        base.setDatabaseName("dataBase.db");
+        base.open();
+        if (!base.open()) {
             QMessageBox::information(this, "Сообщение", "\tБаза данных не открыта", QMessageBox::Ok);
             return;
         }
 
-        QSqlQuery query(db);
-        query.exec("INSERT INTO PersonalData (Login, Password) VALUES ('" + str1 + "', '" + str2 + "');");
+        QSqlQuery query(base);
+
+        if (!query.exec("INSERT INTO PersonalData(Login, Password) VALUES('"+str1+"','"+str2+"');")) {
+            QMessageBox::information(this, "Сообщение", "\tОшибка выполнения запроса: " + query.lastError().text(), QMessageBox::Ok);
+            return;
+        }
         QMessageBox::information(this, "Сообщение", "\tВы успешно зарегестрировались", QMessageBox::Ok);
+        base.close();
     } else {
         QMessageBox::information(this, "Сообщение", "\tНеверный пароль или логин(Формат:^\\w|\\d$)", QMessageBox::Ok);
     }
