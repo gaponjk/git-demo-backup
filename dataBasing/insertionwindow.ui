@@ -13,93 +13,123 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
-  <widget class="QDialogButtonBox" name="buttonBox">
-   <property name="geometry">
-    <rect>
-     <x>40</x>
-     <y>250</y>
-     <width>341</width>
-     <height>32</height>
-    </rect>
-   </property>
-   <property name="orientation">
-    <enum>Qt::Horizontal</enum>
-   </property>
-   <property name="standardButtons">
-    <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
-   </property>
-  </widget>
   <widget class="QWidget" name="gridLayoutWidget">
    <property name="geometry">
     <rect>
      <x>20</x>
      <y>10</y>
      <width>351</width>
-     <height>231</height>
+     <height>281</height>
     </rect>
    </property>
    <layout class="QGridLayout" name="gridLayout">
-    <item row="1" column="2">
-     <widget class="QRadioButton" name="radioButton4">
-      <property name="text">
-       <string>К4</string>
-      </property>
-     </widget>
-    </item>
-    <item row="1" column="1">
-     <widget class="QRadioButton" name="radioButton2">
-      <property name="text">
-       <string>К2</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="2">
-     <widget class="QLineEdit" name="lineEdit"/>
-    </item>
-    <item row="5" column="0">
-     <widget class="QLabel" name="label_3">
-      <property name="text">
-       <string>Дата отправки</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="1">
-     <widget class="QRadioButton" name="radioButton">
-      <property name="text">
-       <string>К1</string>
-      </property>
-     </widget>
-    </item>
-    <item row="0" column="2">
-     <widget class="QRadioButton" name="radioButton3">
-      <property name="text">
-       <string>К3</string>
-      </property>
-     </widget>
-    </item>
-    <item row="4" column="0">
-     <widget class="QLabel" name="label_2">
-      <property name="text">
-       <string>Количество</string>
-      </property>
-     </widget>
-    </item>
-    <item row="7" column="0">
-     <widget class="QLabel" name="label_4">
-      <property name="text">
-       <string>Дата доставки</string>
-      </property>
-     </widget>
-    </item>
     <item row="0" column="0">
      <widget class="QLabel" name="label">
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+ color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+}</string>
+      </property>
       <property name="text">
        <string>Композиция</string>
       </property>
      </widget>
     </item>
-    <item row="5" column="2">
-     <widget class="QDateEdit" name="dateEdit">
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+ color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+}</string>
+      </property>
+      <property name="text">
+       <string>Количество</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+ color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+}</string>
+      </property>
+      <property name="text">
+       <string>Дата отправки</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="0">
+     <widget class="QLabel" name="label_4">
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+ color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+}</string>
+      </property>
+      <property name="text">
+       <string>Дата доставки</string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+ background-color: #8e44ad; 
+ border: 2px solid #732d91;
+  color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+ QLineEdit:hover {
+                background-color: #732d91; 
+            }</string>
+      </property>
+     </widget>
+    </item>
+    <item row="6" column="1">
+     <widget class="QDateEdit" name="dateEdit2">
+      <property name="styleSheet">
+       <string notr="true">  QDateEdit {
+                background-color: #8e44ad; 
+                border: 2px solid #732d91; 
+                color: white;
+                font-size: 16px; 
+                font-weight: bold; 
+                padding: 10px; 
+            }
+            QDateEdit:hover {
+                background-color: #732d91; 
+            }
+            QDateEdit:focus {
+                background-color: #5e2180; 
+                border: 2px solid #5e2180; 
+            }
+            QDateEdit:disabled {
+                background-color: #dcdde1; 
+                border: 2px solid #bdc3c7; 
+                color: #7f8c8d;
+            }
+            QDateEdit::drop-down {
+                subcontrol-origin: padding;
+                subcontrol-position: top right;
+                width: 20px;
+                border-left-width: 1px;
+                border-left-color: #732d91;
+                border-left-style: solid;
+                border-top-right-radius: 3px;
+                border-bottom-right-radius: 3px;
+            }</string>
+      </property>
       <property name="date">
        <date>
         <year>2024</year>
@@ -109,14 +139,111 @@
       </property>
      </widget>
     </item>
-    <item row="7" column="2">
-     <widget class="QDateEdit" name="dateEdit2">
+    <item row="4" column="1">
+     <widget class="QDateEdit" name="dateEdit">
+      <property name="styleSheet">
+       <string notr="true">  QDateEdit {
+                background-color: #8e44ad; 
+                border: 2px solid #732d91; 
+                color: white;
+                font-size: 16px; 
+                font-weight: bold; 
+                padding: 10px; 
+            }
+            QDateEdit:hover {
+                background-color: #732d91; 
+            }
+            QDateEdit:focus {
+                background-color: #5e2180; 
+                border: 2px solid #5e2180; 
+            }
+            QDateEdit:disabled {
+                background-color: #dcdde1; 
+                border: 2px solid #bdc3c7; 
+                color: #7f8c8d;
+            }
+            QDateEdit::drop-down {
+                subcontrol-origin: padding;
+                subcontrol-position: top right;
+                width: 20px;
+                border-left-width: 1px;
+                border-left-color: #732d91;
+                border-left-style: solid;
+                border-top-right-radius: 3px;
+                border-bottom-right-radius: 3px;
+            }</string>
+      </property>
       <property name="date">
        <date>
         <year>2024</year>
         <month>7</month>
         <day>6</day>
        </date>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QComboBox" name="comboBox">
+      <property name="styleSheet">
+       <string notr="true">QComboBox {
+               background-color: #8e44ad; 
+ border: 2px solid #732d91;
+  color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px;
+            }
+            QComboBox:hover {
+                background-color: #7c3bb8;
+                border: 1px solid #9f5ecf;
+            }
+            QComboBox:pressed {
+                background-color: #4a1760;
+                border: 1px solid #7a3a8e;
+            }
+           
+ QComboBox QAbstractItemView {
+                background-color: #5e2180;
+                color: white;
+                selection-background-color: #7c3bb8;
+                selection-color: white;
+            }
+          </string>
+      </property>
+     </widget>
+    </item>
+    <item row="7" column="0" colspan="2">
+     <widget class="QDialogButtonBox" name="buttonBox">
+      <property name="styleSheet">
+       <string notr="true"> QDialogButtonBox {
+                background-color: #5e2180;
+                border: 1px solid #8f4a9f;
+                border-radius: 4px;
+            }
+            QDialogButtonBox QPushButton {
+                background-color: #5e2180;
+                color: white;
+                border: 1px solid #8f4a9f;
+                border-radius: 4px;
+                padding: 5px 10px;
+            }
+            QDialogButtonBox QPushButton:hover {
+                background-color: #7c3bb8;
+                border: 1px solid #9f5ecf;
+            }
+            QDialogButtonBox QPushButton:pressed {
+                background-color: #4a1760;
+                border: 1px solid #7a3a8e;
+            }</string>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="standardButtons">
+       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      </property>
+      <property name="centerButtons">
+       <bool>true</bool>
       </property>
      </widget>
     </item>

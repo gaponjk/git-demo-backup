@@ -27,7 +27,6 @@ private slots:
 private:
     Ui::insertionwindow *ui;
     QString login;//логин
-    QButtonGroup *buttonGroup;//группа кнопое для удобства работы со switch
     QString setDate(QDate& date);
 };
 

@@ -5,14 +5,15 @@ MainWindow::MainWindow(QWidget *parent):
     QMainWindow(parent),
     ui(new Ui::MainWindow), pass(new PassWindow)
 {
-
-    this->setPalette(Qt::white);
+    QColor color ("#5e2180");
+    this->setPalette(color);
     ui->setupUi(this);
-    pass->show();
+    ui->textBrowser->setPalette(color);
+    setWindowTitle("Цветочки");
+    setWindowIcon(QIcon("flower.png"));
     connect(pass, SIGNAL(is_direction()), this, SLOT(setStatus()));
     connect(pass, SIGNAL(send_login(QString)), this, SLOT(setLogin(QString)));
-    //base=new QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
-    //base->setDatabaseName("dataBase.db");
+    pass->setWindowFlags(pass->windowFlags() | Qt::WindowStaysOnTopHint);
 }
 
 MainWindow::~MainWindow()
@@ -20,7 +21,15 @@ MainWindow::~MainWindow()
     delete ui;
     delete insertion;
     delete deletion;
+    delete addComposition;
+    delete addFlower;
     delete base;
+}
+void MainWindow::showEvent(QShowEvent *event) {
+    QMainWindow::showEvent(event);
+    if (this->isVisible()) {
+        pass->show();
+    }
 }
 void MainWindow::setStatus(){//задаю права
     rights=true;
@@ -28,7 +37,7 @@ void MainWindow::setStatus(){//задаю права
 
 void MainWindow::setLogin(const QString& login){//вывожу логин в основное окно
     this->login=login;
-    ui->name->setText(ui->name->text()+login);
+    ui->name->setText("Имя: "+login);
     sign=true;
 }
 
@@ -110,30 +119,6 @@ void MainWindow::on_allOrders_clicked()//вывод всех заказов
         base->close();
     }else
        QMessageBox::information(this, "Сообщение", "\tВы не имеете надлежащих прав", QMessageBox::Ok);
-}
-
-
-void MainWindow::on_deleteOrder_clicked()// кнопка удаление заказа
-{
-    if(!sign){
-        QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
-        return;
-    }
-    deletion=new deletewindow();//открываю для этого отдельное окно
-    deletion->setLogin(login);
-    deletion->show();
-}
-
-
-void MainWindow::on_makeOrder_clicked()//кнопка добалвление заказа
-{
-    if(!sign){
-        QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
-        return;
-    }
-    insertion=new insertionwindow();//открываю для этого отдельное окно
-    insertion->setLogin(login);
-    insertion->show();
 }
 
 
@@ -335,5 +320,49 @@ void MainWindow::on_allComposition_clicked()//вывод всех компози
         base->close();
     }else
         QMessageBox::information(this, "Сообщение", "\tВы не имеете надлежащих прав", QMessageBox::Ok);
+}
+
+void MainWindow::on_deleteOrder_clicked()// кнопка удаление заказа
+{
+    if(!sign){
+        QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
+        return;
+    }
+    deletion=new deletewindow();//открываю для этого отдельное окно
+    deletion->setLogin(login);
+    deletion->show();
+}
+
+
+void MainWindow::on_makeOrder_clicked()//кнопка добалвление заказа
+{
+    if(!sign){
+        QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
+        return;
+    }
+    insertion=new insertionwindow();//открываю для этого отдельное окно
+    insertion->setLogin(login);
+    insertion->show();
+}
+
+void MainWindow::on_addFlower_clicked()
+{
+    if(!sign){
+        QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
+        return;
+    }
+    addFlower=new addflower();
+    addFlower->show();
+}
+
+
+void MainWindow::on_addComposition_clicked()
+{
+    if(!sign){
+        QMessageBox::warning(this, "Сообщение", "\tВы не авторизовались", QMessageBox::Ok);
+        return;
+    }
+    addComposition=new addcomposition();
+    addComposition->show();
 }
 

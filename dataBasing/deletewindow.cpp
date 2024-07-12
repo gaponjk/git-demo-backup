@@ -6,13 +6,32 @@ deletewindow::deletewindow(QWidget *parent) :
     ui(new Ui::deletewindow)
 {
     ui->setupUi(this);
-    buttonGroup = new QButtonGroup(this);//нумерую кнопки
-    buttonGroup->addButton(ui->radioButton, 1);
-    buttonGroup->addButton(ui->radioButton2, 2);
-    buttonGroup->addButton(ui->radioButton3, 3);
-    buttonGroup->addButton(ui->radioButton4, 4);
-}
+    QColor color ("#5e2180");
+    this->setPalette(color);
+    setWindowTitle("Цветочки");
+    setWindowIcon(QIcon("flower.png"));
+    QSqlDatabase base=QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
+    base.setDatabaseName("dataBase.db");
+    base.open();
+    if(!base.isOpen()){
+        QMessageBox::information(this, "Сообщение", "\tБаза данных не открыта", QMessageBox::Ok);
+        return;
+    }
+    QSqlQuery query(base);
+    int var = 1;
 
+    while (true) {
+        query.prepare("SELECT Name FROM Composition WHERE Number = :number");
+        query.bindValue(":number", var++);
+        if (!query.exec() || !query.next()) {
+            break;
+        }
+        QString name = query.value(0).toString();
+        ui->comboBox->addItem(name);
+    }
+    base.close();
+
+}
 deletewindow::~deletewindow()
 {
     delete ui;
@@ -32,7 +51,7 @@ QString deletewindow::setDate(QDate& date){
     return formateDate;
 }
 
-void deletewindow::on_buttonBox_accepted()//могут возникать проблемы с композицией, потому что в базе данных может кто то написать К английскую
+void deletewindow::on_buttonBox_accepted()
 {//нахожу заказ в базе данных и удаляю его
     QDate d1=ui->dateEdit->date(), d2=ui->dateEdit2->date();
     QSqlDatabase base=QSqlDatabase(QSqlDatabase::addDatabase("QSQLITE"));
@@ -42,31 +61,12 @@ void deletewindow::on_buttonBox_accepted()//могут возникать про
         QMessageBox::information(this, "Сообщение", "\tБаза данных не открыта", QMessageBox::Ok);
         return;
     }
-    QString composition="";
-    int id = buttonGroup->checkedId();
-    switch (id) {
-    case 1:
-        composition = "К1";
-        break;
-    case 2:
-        composition = "К2";
-        break;
-    case 3:
-        composition = "К3";
-        break;
-    case 4:
-        composition = "К4";
-        break;
-    default:
-        break;
-    }
     QSqlQuery query(base);
-    query.next();
     query.prepare("DELETE FROM Orders WHERE Name GLOB :name AND Composition GLOB :composition AND Amount "
                   "= :amount AND OrderDate GLOB :orderDate AND FinalDate GLOB :finalDate");
 
     query.bindValue(":name", login);
-    query.bindValue(":composition", composition);
+    query.bindValue(":composition", ui->comboBox->currentText());
     query.bindValue(":amount", ui->lineEdit->text());
     query.bindValue(":orderDate", QString(setDate(d1)));
     query.bindValue(":finalDate", QString(setDate(d2)));
@@ -74,7 +74,18 @@ void deletewindow::on_buttonBox_accepted()//могут возникать про
     if (!query.exec()) {
         QMessageBox::critical(this, "Ошибка", "Запрос не выполнен: " + query.lastError().text());
     } else {
-        QMessageBox::information(this, "Успех", "Заказ успешно удален.");
+        if (query.numRowsAffected() == 0)
+            QMessageBox::warning(this, "Ошибка", "Не найден заказ с указанными параметрами.");
+         else
+            QMessageBox::information(this, "Успех", "Заказ успешно удален.");
+
     }
+}
+
+
+
+void deletewindow::on_buttonBox_rejected()
+{
+    this->hide();
 }
 

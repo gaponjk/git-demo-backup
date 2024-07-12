@@ -9,6 +9,8 @@ CONFIG += c++17
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
+    addcomposition.cpp \
+    addflower.cpp \
     checker.cpp \
     deletewindow.cpp \
     insertionwindow.cpp \
@@ -17,6 +19,8 @@ SOURCES += \
     passWindow.cpp
 
 HEADERS += \
+    addcomposition.h \
+    addflower.h \
     checker.h \
     deletewindow.h \
     insertionwindow.h \
@@ -24,6 +28,8 @@ HEADERS += \
     passWindow.h
 
 FORMS += \
+    addcomposition.ui \
+    addflower.ui \
     deletewindow.ui \
     insertionwindow.ui \
     mainwindow.ui

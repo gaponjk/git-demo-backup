@@ -11,6 +11,8 @@
 #include "passWindow.h"
 #include "insertionwindow.h"
 #include "deletewindow.h"
+#include"addflower.h"
+#include"addcomposition.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -24,6 +26,7 @@ class MainWindow : public QMainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     void mousePressEvent(QMouseEvent *event) override;
+    void showEvent(QShowEvent *event) override;
     ~MainWindow();
 
 private slots:
@@ -49,11 +52,17 @@ private slots:
 
     void on_popComp_clicked();
 
+    void on_addFlower_clicked();
+
+    void on_addComposition_clicked();
+
 private:
     Ui::MainWindow *ui;
     PassWindow* pass;//окно с вводом логина и пароля
     insertionwindow* insertion;//окно в добавлением заказа
     deletewindow* deletion;//с удалением заказа
+    addflower*addFlower;//для добавления цветка
+    addcomposition*addComposition;//для добавления композиции
     QSqlDatabase *base;//база данных dataBase.db
     QString login;//логин пользователя
     bool rights=false;//админ ли пользователь

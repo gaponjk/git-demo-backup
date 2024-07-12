@@ -41,6 +41,16 @@ bool Checker::corectness(const QString &login, const QString &password){//про
         return 0;
     }
 }
+
+bool Checker::dotcheck(const QString &cost)
+{
+    QRegularExpression exp("^(\\d+(\\.\\d*)?|\\.\\d+)$");
+    if(exp.match(cost.trimmed()).hasMatch())
+        return true;
+    else
+        return false;
+}
+
 bool Checker::right(const QString &login){//узнаю права пользователя
     QSqlDatabase base = QSqlDatabase::addDatabase("QSQLITE");
     base.setDatabaseName("dataBase.db");

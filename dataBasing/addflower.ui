@@ -1,0 +1,205 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>addflower</class>
+ <widget class="QDialog" name="addflower">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>400</width>
+    <height>300</height>
+   </rect>
+  </property>
+  <property name="windowTitle">
+   <string>Dialog</string>
+  </property>
+  <widget class="QWidget" name="gridLayoutWidget">
+   <property name="geometry">
+    <rect>
+     <x>20</x>
+     <y>10</y>
+     <width>351</width>
+     <height>281</height>
+    </rect>
+   </property>
+   <layout class="QGridLayout" name="gridLayout">
+    <item row="3" column="1">
+     <widget class="QLineEdit" name="lineEdit">
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+ background-color: #8e44ad; 
+ border: 2px solid #732d91;
+  color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+ QLineEdit:hover {
+                background-color: #732d91; 
+            }</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="0">
+     <widget class="QLabel" name="label">
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+ color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+}</string>
+      </property>
+      <property name="text">
+       <string>Сорт</string>
+      </property>
+     </widget>
+    </item>
+    <item row="0" column="1">
+     <widget class="QComboBox" name="comboBox">
+      <property name="styleSheet">
+       <string notr="true">QComboBox {
+               background-color: #8e44ad; 
+ border: 2px solid #732d91;
+  color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px;
+            }
+            QComboBox:hover {
+                background-color: #7c3bb8;
+                border: 1px solid #9f5ecf;
+            }
+            QComboBox:pressed {
+                background-color: #4a1760;
+                border: 1px solid #7a3a8e;
+            }
+           
+ QComboBox QAbstractItemView {
+                background-color: #5e2180;
+                color: white;
+                selection-background-color: #7c3bb8;
+                selection-color: white;
+            }
+          </string>
+      </property>
+     </widget>
+    </item>
+    <item row="3" column="0">
+     <widget class="QLabel" name="label_2">
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+ color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+}</string>
+      </property>
+      <property name="text">
+       <string>Название</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="1">
+     <widget class="QLineEdit" name="lineEdit2">
+      <property name="styleSheet">
+       <string notr="true">QLineEdit{
+ background-color: #8e44ad; 
+ border: 2px solid #732d91;
+  color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+ QLineEdit:hover {
+                background-color: #732d91; 
+            }</string>
+      </property>
+     </widget>
+    </item>
+    <item row="4" column="0">
+     <widget class="QLabel" name="label_3">
+      <property name="styleSheet">
+       <string notr="true">QLabel{
+ color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+}</string>
+      </property>
+      <property name="text">
+       <string>Цена(через точку) </string>
+      </property>
+     </widget>
+    </item>
+    <item row="5" column="0" colspan="2">
+     <widget class="QDialogButtonBox" name="buttonBox">
+      <property name="styleSheet">
+       <string notr="true"> QDialogButtonBox {
+                background-color: #5e2180;
+                border: 1px solid #8f4a9f;
+                border-radius: 4px;
+            }
+            QDialogButtonBox QPushButton {
+                background-color: #5e2180;
+                color: white;
+                border: 1px solid #8f4a9f;
+                border-radius: 4px;
+                padding: 5px 10px;
+            }
+            QDialogButtonBox QPushButton:hover {
+                background-color: #7c3bb8;
+                border: 1px solid #9f5ecf;
+            }
+            QDialogButtonBox QPushButton:pressed {
+                background-color: #4a1760;
+                border: 1px solid #7a3a8e;
+            }</string>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
+      </property>
+      <property name="standardButtons">
+       <set>QDialogButtonBox::Cancel|QDialogButtonBox::Ok</set>
+      </property>
+      <property name="centerButtons">
+       <bool>true</bool>
+      </property>
+     </widget>
+    </item>
+   </layout>
+  </widget>
+ </widget>
+ <resources/>
+ <connections>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>accepted()</signal>
+   <receiver>addflower</receiver>
+   <slot>accept()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>248</x>
+     <y>254</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>157</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+  <connection>
+   <sender>buttonBox</sender>
+   <signal>rejected()</signal>
+   <receiver>addflower</receiver>
+   <slot>reject()</slot>
+   <hints>
+    <hint type="sourcelabel">
+     <x>316</x>
+     <y>260</y>
+    </hint>
+    <hint type="destinationlabel">
+     <x>286</x>
+     <y>274</y>
+    </hint>
+   </hints>
+  </connection>
+ </connections>
+</ui>

@@ -10,5 +10,6 @@ public:
     static bool right(const QString& login);
     static bool loginPassword(const QString& login, const QString& password);
     static bool corectness(const QString& login, const QString& password);
+    static bool dotcheck(const QString& cost);
 };
 #endif // CHECKER_H

@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>823</width>
-    <height>629</height>
+    <width>1152</width>
+    <height>618</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,121 +19,258 @@
      <rect>
       <x>10</x>
       <y>0</y>
-      <width>581</width>
-      <height>411</height>
+      <width>1131</width>
+      <height>561</height>
      </rect>
     </property>
     <layout class="QGridLayout" name="gridLayout">
-     <item row="0" column="1">
-      <widget class="QPushButton" name="myOrders">
-       <property name="text">
-        <string>Посмотреть мои заказы</string>
-       </property>
-      </widget>
-     </item>
-     <item row="0" column="0">
-      <widget class="QPushButton" name="allOrders">
-       <property name="text">
-        <string>Посмотреть все заказы</string>
-       </property>
-      </widget>
-     </item>
-     <item row="6" column="0">
-      <widget class="QPushButton" name="popComp">
-       <property name="text">
-        <string>Популярность композиций</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="0">
-      <widget class="QPushButton" name="periodMoney">
-       <property name="text">
-        <string>Посмотреть прибыль за период</string>
-       </property>
-      </widget>
-     </item>
-     <item row="3" column="1">
+     <item row="4" column="1" colspan="2">
       <widget class="QPushButton" name="makeOrder">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #8e44ad; 
+    border: 2px solid #732d91;
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+
+QPushButton:hover {
+    background-color: #732d91;
+}
+
+QPushButton:pressed {
+    background-color: #5e2180;
+    border: 2px solid #5e2180; 
+}
+
+QPushButton:disabled {
+    background-color: #dcdde1;
+    border: 2px solid #bdc3c7;
+    color: #7f8c8d; 
+}</string>
+       </property>
        <property name="text">
         <string>Сделать заказ</string>
        </property>
       </widget>
      </item>
      <item row="1" column="0">
-      <widget class="QPushButton" name="allComposition">
+      <widget class="QPushButton" name="allOrders">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #8e44ad; 
+    border: 2px solid #732d91;
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+
+QPushButton:hover {
+    background-color: #732d91;
+}
+
+QPushButton:pressed {
+    background-color: #5e2180;
+    border: 2px solid #5e2180; 
+}
+
+QPushButton:disabled {
+    background-color: #dcdde1;
+    border: 2px solid #bdc3c7;
+    color: #7f8c8d; 
+}</string>
+       </property>
        <property name="text">
-        <string>Посмотреть все композиции</string>
+        <string>Посмотреть все заказы</string>
        </property>
       </widget>
      </item>
-     <item row="2" column="1">
-      <widget class="QDateEdit" name="dateEdit2">
-       <property name="dateTime">
-        <datetime>
-         <hour>12</hour>
-         <minute>0</minute>
-         <second>0</second>
-         <year>2024</year>
-         <month>7</month>
-         <day>6</day>
-        </datetime>
-       </property>
-       <property name="maximumDate">
-        <date>
-         <year>2024</year>
-         <month>12</month>
-         <day>31</day>
-        </date>
-       </property>
-       <property name="minimumDate">
-        <date>
-         <year>2024</year>
-         <month>1</month>
-         <day>1</day>
-        </date>
-       </property>
-       <property name="date">
-        <date>
-         <year>2024</year>
-         <month>7</month>
-         <day>6</day>
-        </date>
-       </property>
-      </widget>
-     </item>
-     <item row="4" column="1">
-      <widget class="QPushButton" name="deleteOrder">
-       <property name="text">
-        <string>Удалить свой заказ</string>
-       </property>
-      </widget>
-     </item>
-     <item row="2" column="0">
-      <widget class="QPushButton" name="allFlowers">
-       <property name="text">
-        <string>Посмотреть все цветы</string>
-       </property>
-      </widget>
-     </item>
-     <item row="5" column="0">
+     <item row="6" column="0">
       <widget class="QPushButton" name="periodOrders">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #8e44ad; 
+    border: 2px solid #732d91;
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+
+QPushButton:hover {
+    background-color: #732d91;
+}
+
+QPushButton:pressed {
+    background-color: #5e2180;
+    border: 2px solid #5e2180; 
+}
+
+QPushButton:disabled {
+    background-color: #dcdde1;
+    border: 2px solid #bdc3c7;
+    color: #7f8c8d; 
+}</string>
+       </property>
        <property name="text">
         <string>Все заказы за период</string>
        </property>
       </widget>
      </item>
      <item row="4" column="0">
-      <widget class="QPushButton" name="orderedFlowers">
+      <widget class="QPushButton" name="periodMoney">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #8e44ad; 
+    border: 2px solid #732d91;
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+
+QPushButton:hover {
+    background-color: #732d91;
+}
+
+QPushButton:pressed {
+    background-color: #5e2180;
+    border: 2px solid #5e2180; 
+}
+
+QPushButton:disabled {
+    background-color: #dcdde1;
+    border: 2px solid #bdc3c7;
+    color: #7f8c8d; 
+}</string>
+       </property>
        <property name="text">
-        <string>Посмотреть какие цветы были проданы за период</string>
+        <string>Посмотреть прибыль за период</string>
        </property>
       </widget>
      </item>
-     <item row="1" column="1">
-      <widget class="QDateEdit" name="dateEdit">
+     <item row="7" column="0">
+      <widget class="QPushButton" name="popComp">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #8e44ad; 
+    border: 2px solid #732d91;
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+
+QPushButton:hover {
+    background-color: #732d91;
+}
+
+QPushButton:pressed {
+    background-color: #5e2180;
+    border: 2px solid #5e2180; 
+}
+
+QPushButton:disabled {
+    background-color: #dcdde1;
+    border: 2px solid #bdc3c7;
+    color: #7f8c8d; 
+}</string>
+       </property>
+       <property name="text">
+        <string>Популярность композиций</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="0">
+      <widget class="QPushButton" name="allComposition">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #8e44ad; 
+    border: 2px solid #732d91;
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+
+QPushButton:hover {
+    background-color: #732d91;
+}
+
+QPushButton:pressed {
+    background-color: #5e2180;
+    border: 2px solid #5e2180; 
+}
+
+QPushButton:disabled {
+    background-color: #dcdde1;
+    border: 2px solid #bdc3c7;
+    color: #7f8c8d; 
+}</string>
+       </property>
+       <property name="text">
+        <string>Посмотреть все композиции</string>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="1">
+      <widget class="QLabel" name="label_2">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+ color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    text-align: center;
+}</string>
+       </property>
+       <property name="text">
+        <string>До конца:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="2">
+      <widget class="QDateEdit" name="dateEdit2">
+       <property name="styleSheet">
+        <string notr="true">  QDateEdit {
+                background-color: #8e44ad; 
+                border: 2px solid #732d91; 
+                color: white;
+                font-size: 16px; 
+                font-weight: bold; 
+                padding: 10px; 
+            }
+            QDateEdit:hover {
+                background-color: #732d91; 
+            }
+            QDateEdit:focus {
+                background-color: #5e2180; 
+                border: 2px solid #5e2180; 
+            }
+            QDateEdit:disabled {
+                background-color: #dcdde1; 
+                border: 2px solid #bdc3c7; 
+                color: #7f8c8d;
+            }
+            QDateEdit::drop-down {
+                subcontrol-origin: padding;
+                subcontrol-position: top right;
+                width: 20px;
+                border-left-width: 1px;
+                border-left-color: #732d91;
+                border-left-style: solid;
+                border-top-right-radius: 3px;
+                border-bottom-right-radius: 3px;
+            }</string>
+       </property>
        <property name="dateTime">
         <datetime>
-         <hour>15</hour>
+         <hour>6</hour>
          <minute>0</minute>
          <second>0</second>
          <year>2024</year>
@@ -164,55 +301,372 @@
        </property>
       </widget>
      </item>
-    </layout>
-   </widget>
-   <widget class="QTextBrowser" name="textBrowser">
-    <property name="geometry">
-     <rect>
-      <x>300</x>
-      <y>290</y>
-      <width>511</width>
-      <height>291</height>
-     </rect>
-    </property>
-    <property name="maximumSize">
-     <size>
-      <width>900</width>
-      <height>840</height>
-     </size>
-    </property>
-    <property name="font">
-     <font>
-      <family>URW Gothic [urw]</family>
-      <pointsize>13</pointsize>
-      <bold>true</bold>
-     </font>
-    </property>
-   </widget>
-   <widget class="QWidget" name="gridLayoutWidget_2">
-    <property name="geometry">
-     <rect>
-      <x>610</x>
-      <y>40</y>
-      <width>191</width>
-      <height>131</height>
-     </rect>
-    </property>
-    <layout class="QGridLayout" name="gridLayout_2">
-     <item row="0" column="0">
-      <widget class="QLabel" name="name">
-       <property name="font">
-        <font>
-         <pointsize>11</pointsize>
-         <bold>true</bold>
-        </font>
+     <item row="8" column="0">
+      <widget class="QPushButton" name="addFlower">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #8e44ad; 
+    border: 2px solid #732d91;
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+
+QPushButton:hover {
+    background-color: #732d91;
+}
+
+QPushButton:pressed {
+    background-color: #5e2180;
+    border: 2px solid #5e2180; 
+}
+
+QPushButton:disabled {
+    background-color: #dcdde1;
+    border: 2px solid #bdc3c7;
+    color: #7f8c8d; 
+}</string>
        </property>
+       <property name="text">
+        <string>Добавить цветок</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="0">
+      <widget class="QLabel" name="label_3">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+ color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+}</string>
+       </property>
+       <property name="text">
+        <string>Для админа</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="1">
+      <widget class="QLabel" name="label">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+ color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+}</string>
+       </property>
+       <property name="text">
+        <string>С начала:</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="9" column="0">
+      <widget class="QPushButton" name="addComposition">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #8e44ad; 
+    border: 2px solid #732d91;
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+
+QPushButton:hover {
+    background-color: #732d91;
+}
+
+QPushButton:pressed {
+    background-color: #5e2180;
+    border: 2px solid #5e2180; 
+}
+
+QPushButton:disabled {
+    background-color: #dcdde1;
+    border: 2px solid #bdc3c7;
+    color: #7f8c8d; 
+}</string>
+       </property>
+       <property name="text">
+        <string>Добавить компазицию</string>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="0">
+      <widget class="QPushButton" name="orderedFlowers">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #8e44ad; 
+    border: 2px solid #732d91;
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+
+QPushButton:hover {
+    background-color: #732d91;
+}
+
+QPushButton:pressed {
+    background-color: #5e2180;
+    border: 2px solid #5e2180; 
+}
+
+QPushButton:disabled {
+    background-color: #dcdde1;
+    border: 2px solid #bdc3c7;
+    color: #7f8c8d; 
+}</string>
+       </property>
+       <property name="text">
+        <string>Посмотреть какие цветы были проданы за период</string>
+       </property>
+      </widget>
+     </item>
+     <item row="1" column="1" colspan="2">
+      <widget class="QPushButton" name="myOrders">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #8e44ad; 
+    border: 2px solid #732d91;
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+
+QPushButton:hover {
+    background-color: #732d91;
+}
+
+QPushButton:pressed {
+    background-color: #5e2180;
+    border: 2px solid #5e2180; 
+}
+
+QPushButton:disabled {
+    background-color: #dcdde1;
+    border: 2px solid #bdc3c7;
+    color: #7f8c8d; 
+}</string>
+       </property>
+       <property name="text">
+        <string>Посмотреть мои заказы</string>
+       </property>
+      </widget>
+     </item>
+     <item row="2" column="2">
+      <widget class="QDateEdit" name="dateEdit">
+       <property name="styleSheet">
+        <string notr="true">  QDateEdit {
+                background-color: #8e44ad; 
+                border: 2px solid #732d91; 
+                color: white;
+                font-size: 16px; 
+                font-weight: bold; 
+                padding: 10px; 
+            }
+            QDateEdit:hover {
+                background-color: #732d91; 
+            }
+            QDateEdit:focus {
+                background-color: #5e2180; 
+                border: 2px solid #5e2180; 
+            }
+            QDateEdit:disabled {
+                background-color: #dcdde1; 
+                border: 2px solid #bdc3c7; 
+                color: #7f8c8d;
+            }
+            QDateEdit::drop-down {
+                subcontrol-origin: padding;
+                subcontrol-position: top right;
+                width: 20px;
+                border-left-width: 1px;
+                border-left-color: #732d91;
+                border-left-style: solid;
+                border-top-right-radius: 3px;
+                border-bottom-right-radius: 3px;
+            }</string>
+       </property>
+       <property name="dateTime">
+        <datetime>
+         <hour>9</hour>
+         <minute>0</minute>
+         <second>0</second>
+         <year>2024</year>
+         <month>7</month>
+         <day>6</day>
+        </datetime>
+       </property>
+       <property name="maximumDate">
+        <date>
+         <year>2024</year>
+         <month>12</month>
+         <day>31</day>
+        </date>
+       </property>
+       <property name="minimumDate">
+        <date>
+         <year>2024</year>
+         <month>1</month>
+         <day>1</day>
+        </date>
+       </property>
+       <property name="date">
+        <date>
+         <year>2024</year>
+         <month>7</month>
+         <day>6</day>
+        </date>
+       </property>
+      </widget>
+     </item>
+     <item row="5" column="1" colspan="2">
+      <widget class="QPushButton" name="deleteOrder">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #8e44ad; 
+    border: 2px solid #732d91;
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+
+QPushButton:hover {
+    background-color: #732d91;
+}
+
+QPushButton:pressed {
+    background-color: #5e2180;
+    border: 2px solid #5e2180; 
+}
+
+QPushButton:disabled {
+    background-color: #dcdde1;
+    border: 2px solid #bdc3c7;
+    color: #7f8c8d; 
+}</string>
+       </property>
+       <property name="text">
+        <string>Удалить свой заказ</string>
+       </property>
+      </widget>
+     </item>
+     <item row="0" column="1" colspan="2">
+      <widget class="QLabel" name="label_4">
+       <property name="styleSheet">
+        <string notr="true">QLabel{
+ color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+}</string>
+       </property>
+       <property name="text">
+        <string>Для пользователя</string>
+       </property>
+       <property name="alignment">
+        <set>Qt::AlignCenter</set>
+       </property>
+      </widget>
+     </item>
+     <item row="3" column="0">
+      <widget class="QPushButton" name="allFlowers">
+       <property name="styleSheet">
+        <string notr="true">QPushButton {
+    background-color: #8e44ad; 
+    border: 2px solid #732d91;
+    color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+    padding: 10px 20px; 
+}
+
+QPushButton:hover {
+    background-color: #732d91;
+}
+
+QPushButton:pressed {
+    background-color: #5e2180;
+    border: 2px solid #5e2180; 
+}
+
+QPushButton:disabled {
+    background-color: #dcdde1;
+    border: 2px solid #bdc3c7;
+    color: #7f8c8d; 
+}</string>
+       </property>
+       <property name="text">
+        <string>Посмотреть все цветы</string>
+       </property>
+      </widget>
+     </item>
+     <item row="10" column="0">
+      <widget class="QLabel" name="label_5">
        <property name="text">
         <string/>
        </property>
       </widget>
      </item>
+     <item row="6" column="1" rowspan="5" colspan="2">
+      <widget class="QTextBrowser" name="textBrowser">
+       <property name="maximumSize">
+        <size>
+         <width>900</width>
+         <height>840</height>
+        </size>
+       </property>
+       <property name="font">
+        <font>
+         <family>URW Gothic [urw]</family>
+         <pointsize>13</pointsize>
+         <bold>true</bold>
+        </font>
+       </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true">QTextBrowser{
+background-color: #5e2180
+}</string>
+       </property>
+      </widget>
+     </item>
     </layout>
+   </widget>
+   <widget class="QLabel" name="name">
+    <property name="geometry">
+     <rect>
+      <x>370</x>
+      <y>10</y>
+      <width>191</width>
+      <height>51</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QLabel{
+ color: white; 
+    font-size: 16px; 
+    font-weight: bold; 
+}</string>
+    </property>
+    <property name="text">
+     <string/>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menubar">
@@ -220,7 +674,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>823</width>
+     <width>1152</width>
      <height>21</height>
     </rect>
    </property>
